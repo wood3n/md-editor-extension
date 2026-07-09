@@ -1,0 +1,181 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+    --radius: 0.5rem;
+  }
+
+  html.dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      "Helvetica Neue", Arial, sans-serif;
+  }
+}
+
+/* Milkdown editor: stretch to fill container when content is short */
+#milkdown-editor .ProseMirror {
+  min-height: calc(100vh - 3rem);
+}
+
+/* Reduce the default content padding (default is 60px 120px) */
+#milkdown-editor .milkdown .ProseMirror {
+  padding: 48px 120px;
+}
+
+/* Code blocks & CodeMirror: always dark */
+.milkdown-code-block,
+.milkdown-code-block .cm-editor,
+.milkdown-code-block .cm-editor .cm-scroller,
+.milkdown-code-block .cm-editor .cm-content,
+.milkdown-code-block .cm-editor .cm-gutters {
+  background: #282c34 !important;
+  color: #abb2bf !important;
+}
+.milkdown-code-block .cm-editor .cm-gutters {
+  border-right-color: #3e4452 !important;
+}
+.milkdown-code-block .cm-editor .cm-activeLineGutter,
+.milkdown-code-block .cm-editor .cm-activeLine {
+  background: #2c313c !important;
+}
+.milkdown-code-block .cm-editor .cm-cursor {
+  border-left-color: #528bff !important;
+}
+.milkdown-code-block .cm-editor .cm-selectionBackground,
+.milkdown-code-block .cm-editor .cm-selectionBackground::selection,
+.milkdown-code-block .cm-editor.cm-focused .cm-selectionBackground {
+  background: #3e4452 !important;
+}
+/* CodeMirror syntax token colors (One Dark palette) */
+.milkdown-code-block .cm-editor .ͼ1 .cm-keyword { color: #c678dd !important; }
+.milkdown-code-block .cm-editor .ͼ1 .cm-string { color: #98c379 !important; }
+.milkdown-code-block .cm-editor .ͼ1 .cm-number { color: #d19a66 !important; }
+.milkdown-code-block .cm-editor .ͼ1 .cm-comment { color: #5c6370 !important; }
+.milkdown-code-block .cm-editor .ͼ1 .cm-variableName { color: #e06c75 !important; }
+.milkdown-code-block .cm-editor .ͼ1 .cm-typeName { color: #e5c07b !important; }
+.milkdown-code-block .cm-editor .ͼ1 .cm-propertyName { color: #e06c75 !important; }
+.milkdown-code-block .cm-editor .ͼ1 .cm-operator { color: #56b6c2 !important; }
+.milkdown-code-block .cm-editor .ͼ1 .cm-meta { color: #abb2bf !important; }
+.milkdown-code-block .cm-editor .ͼ1 .cm-bracket { color: #abb2bf !important; }
+.milkdown-code-block .cm-editor .ͼ1 .cm-tag { color: #e06c75 !important; }
+.milkdown-code-block .cm-editor .ͼ1 .cm-attributeName { color: #d19a66 !important; }
+.milkdown-code-block .cm-editor .ͼ1 .cm-link { color: #61afef !important; }
+.milkdown-code-block .cm-editor .ͼ1 .cm-url { color: #56b6c2 !important; }
+.milkdown-code-block .cm-editor .ͼ1 .cm-heading { color: #e06c75 !important; }
+.milkdown-code-block .cm-editor .ͼ1 .cm-quote { color: #5c6370 !important; }
+.milkdown-code-block .cm-editor .ͼ1 .cm-emphasis { font-style: italic !important; }
+.milkdown-code-block .cm-editor .ͼ1 .cm-strong { font-weight: bold !important; }
+
+/* Highlight mark (==text==) */
+.milkdown .highlight-mark,
+.milkdown mark {
+  background: #fde68a;
+  color: inherit;
+  border-radius: 2px;
+  padding: 0 2px;
+}
+html.dark .milkdown .highlight-mark,
+html.dark .milkdown mark {
+  background: #854d0e;
+  color: #fef3c7;
+}
+
+/* Code block tools: always show language & copy button */
+.milkdown-code-block .language-button,
+.milkdown-code-block .tools-button-group > button {
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+/* Print: show only #print-content */
+@media print {
+  @page { margin: 1.5cm; }
+
+  /* Hide UI */
+  .no-print { display: none !important; }
+
+  /* Show only print content */
+  body > :not(#print-content) { display: none !important; }
+  #print-content {
+    display: block !important;
+    visibility: visible !important;
+    width: 100% !important;
+    background: white !important;
+    color: black !important;
+    font-size: 13px;
+    line-height: 1.7;
+    padding: 0;
+    margin: 0;
+  }
+}
+
+/* Milkdown editor dark theme - must target .milkdown directly
+   because the light theme sets variables on .milkdown element */
+html.dark .milkdown {
+  --crepe-color-background: #1e1e1e;
+  --crepe-color-on-background: #e0e0e0;
+  --crepe-color-surface: #2a2a2a;
+  --crepe-color-surface-low: #252525;
+  --crepe-color-on-surface: #e0e0e0;
+  --crepe-color-on-surface-variant: #a0a0a0;
+  --crepe-color-outline: #555555;
+  --crepe-color-primary: #bbbbbb;
+  --crepe-color-secondary: #3a3a3a;
+  --crepe-color-on-secondary: #e0e0e0;
+  --crepe-color-inverse: #2a2a2a;
+  --crepe-color-on-inverse: #e0e0e0;
+  --crepe-color-inline-code: #ff7b7b;
+  --crepe-color-error: #ff6b6b;
+  --crepe-color-hover: #333333;
+  --crepe-color-selected: #3a3a3a;
+  --crepe-color-inline-area: #3a3a3a;
+}
