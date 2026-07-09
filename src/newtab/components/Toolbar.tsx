@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Save, Plus, FileDown, MoreHorizontal, Sun, Moon, PanelLeftOpen, PanelLeftClose } from "lucide-react";
+import { Save, Plus, FileDown, MoreHorizontal, Sun, Moon, PanelLeftOpen, PanelLeftClose, Pencil } from "lucide-react";
 import { cn } from "../lib/utils";
 
 interface ToolbarProps {
@@ -9,6 +9,7 @@ interface ToolbarProps {
   onToggleDark: () => void;
   onSave: () => void;
   onNewDoc: () => void;
+  onEditDoc?: () => void;
   sidebarOpen: boolean;
   onToggleSidebar: () => void;
   docTitle?: string;
@@ -23,6 +24,7 @@ export function Toolbar({
   onToggleDark,
   onSave,
   onNewDoc,
+  onEditDoc,
   sidebarOpen,
   onToggleSidebar,
   docTitle,
@@ -65,13 +67,20 @@ export function Toolbar({
 
       {/* 文档标题和日期 — 侧边栏按钮右侧 */}
       {docTitle && (
-        <div className="flex items-center gap-1.5 ml-1 min-w-0">
+        <div className="group flex items-center gap-1 ml-1 min-w-0">
           <span className="text-sm font-medium truncate">{docTitle}</span>
           {docTime && (
             <span className="text-[10px] text-muted-foreground whitespace-nowrap">
               · {docTime}
             </span>
           )}
+          <button
+            onClick={onEditDoc}
+            className="opacity-0 group-hover:opacity-100 p-0.5 rounded hover:bg-accent transition-all"
+            title="编辑标题"
+          >
+            <Pencil className="w-3.5 h-3.5 text-muted-foreground" />
+          </button>
         </div>
       )}
 

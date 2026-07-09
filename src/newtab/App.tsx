@@ -7,6 +7,7 @@ import { EditorPanel } from "./components/EditorPanel";
 import { Toc } from "./components/Toc";
 import { Sidebar } from "./components/Sidebar";
 import { SaveDialog } from "./components/SaveDialog";
+import { RenameDialog } from "./components/RenameDialog";
 import { Toast } from "./components/Toast";
 import { useCurrentTabUrl } from "./hooks/useCurrentTabUrl";
 import { saveDoc, updateDoc, SavedDoc } from "./lib/doc-store";
@@ -16,6 +17,7 @@ export default function App() {
   const [showToc, setShowToc] = useState(false);
   const [showSidebar, setShowSidebar] = useState(false);
   const [showSaveDialog, setShowSaveDialog] = useState(false);
+  const [showRenameDialog, setShowRenameDialog] = useState(false);
   const [activeDoc, setActiveDoc] = useState<SavedDoc | null>(null);
   const [saved, setSaved] = useState(false);
   const [saveCount, setSaveCount] = useState(0);
@@ -116,6 +118,16 @@ export default function App() {
     lastLoadedRef.current = null;
   }, []);
 
+  // ── Rename document ──
+  const handleRename = useCallback(async (title: string) => {
+    if (!activeDoc) return;
+    const updated = await updateDoc(activeDoc.id, { title });
+    if (updated) {
+      setActiveDoc(updated);
+      setSaveCount((c) => c + 1);
+    }
+  }, [activeDoc]);
+
   // ── Export ──
   const handleExportMd = useCallback(() => {
     const md = getMarkdownRef.current?.() || markdown;
@@ -165,6 +177,7 @@ export default function App() {
         onToggleDark={toggleDark}
         onSave={handleSaveClick}
         onNewDoc={handleNewDoc}
+        onEditDoc={() => setShowRenameDialog(true)}
         sidebarOpen={showSidebar}
         onToggleSidebar={() => setShowSidebar((v) => !v)}
         docTitle={activeDoc?.title}
@@ -242,6 +255,13 @@ export default function App() {
         open={showSaveDialog}
         onClose={() => setShowSaveDialog(false)}
         onSave={handleSaveConfirm}
+      />
+
+      <RenameDialog
+        open={showRenameDialog}
+        currentTitle={activeDoc?.title ?? ""}
+        onClose={() => setShowRenameDialog(false)}
+        onSave={handleRename}
       />
 
       <Toast
