@@ -2,6 +2,10 @@
 
 一个功能丰富的 Markdown 编辑器 Chrome 扩展，支持实时预览、Mermaid 图表、本地文档管理和离线缓存。
 
+<p align="center">
+  <img src="public/icons/icon128.png" alt="MD Editor Logo" width="128" height="128">
+</p>
+
 ## 功能特性
 
 - **Markdown 编辑**：基于 [Milkdown](https://milkdown.dev) Crepe 编辑器，提供所见即所得的编辑体验
