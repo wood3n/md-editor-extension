@@ -68,6 +68,31 @@
   height: 100%;
 }
 
+/* Tighten toolbar left padding */
+#toast-editor .toastui-editor-defaultUI-toolbar {
+  padding-left: 8px;
+}
+
+/* Remove the outer border/radius so the editor blends into the page */
+#toast-editor .toastui-editor-defaultUI {
+  border: none;
+  border-radius: 0;
+}
+
+/* Hide the mode switch bar (WYSIWYG toggle) — markdown-only */
+#toast-editor .toastui-editor-mode-switch {
+  display: none;
+}
+
+/* Dark mode: unify toolbar background and borders with the dark theme */
+html.dark #toast-editor .toastui-editor-defaultUI {
+  border: none;
+}
+html.dark #toast-editor .toastui-editor-defaultUI-toolbar {
+  background-color: #232428;
+  border-bottom-color: #303238;
+}
+
 /* Mermaid container in preview */
 .mermaid-container {
   text-align: center;

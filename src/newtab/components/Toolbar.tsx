@@ -57,7 +57,7 @@ export function Toolbar({
       <button
         onClick={onToggleSidebar}
         className={cn(
-          "p-1.5 rounded-md border hover:bg-accent transition-colors",
+          "p-2 rounded-md border hover:bg-accent transition-colors",
           sidebarOpen && "bg-accent"
         )}
         title={sidebarOpen ? "关闭侧边栏" : "打开侧边栏"}
@@ -110,7 +110,7 @@ export function Toolbar({
       <div className="flex">
         <button
           onClick={onExportMd}
-          className="flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-l-md border border-r-0 hover:bg-accent transition-colors"
+          className="flex items-center gap-1.5 px-3 py-2 text-xs rounded-l-md border border-r-0 hover:bg-accent transition-colors"
           title="下载 Markdown"
         >
           <FileDown className="w-4 h-4" />
@@ -120,7 +120,7 @@ export function Toolbar({
         <div ref={moreRef} className="relative">
           <button
             onClick={() => setShowMore((v) => !v)}
-            className="flex items-center px-2 py-1.5 text-xs rounded-r-md border hover:bg-accent transition-colors"
+            className="flex items-center px-2 py-2 text-xs rounded-r-md border hover:bg-accent transition-colors"
             title="更多"
           >
             <MoreHorizontal className="w-4 h-4" />
@@ -143,7 +143,7 @@ export function Toolbar({
       {/* 深色/浅色切换 */}
       <button
         onClick={onToggleDark}
-        className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs rounded-md border hover:bg-accent transition-colors"
+        className="flex items-center justify-center p-2 rounded-md border hover:bg-accent transition-colors"
         title={dark ? "切换浅色模式" : "切换深色模式"}
       >
         {dark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}

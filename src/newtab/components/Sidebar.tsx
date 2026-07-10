@@ -44,7 +44,7 @@ export function Sidebar({ open, activeDocId, onSelectDoc, onDeleteDoc, refreshKe
 
   return (
     <div className="w-60 h-full border-r bg-background shrink-0 flex flex-col">
-      <div className="flex items-center justify-between px-3 py-3 border-b">
+      <div className="flex items-center px-3 border-b" style={{ height: "45px" }}>
         <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
           文档列表
         </h3>

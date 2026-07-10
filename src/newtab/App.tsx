@@ -186,7 +186,7 @@ export default function App() {
 
       {/* Remote URL status bar */}
       {mdUrl && !activeDoc && (
-        <div className="no-print flex items-center gap-2 px-4 py-1.5 text-xs bg-blue-50 dark:bg-blue-950 border-b">
+        <div className="no-print flex items-center gap-2 px-4 py-1.5 text-xs bg-muted dark:bg-blue-950 border-b">
           {loading ? (
             <>
               <span className="inline-block w-3 h-3 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
@@ -231,11 +231,12 @@ export default function App() {
             />
           </div>
 
-          {/* 悬浮 TOC 切换按钮 — 编辑器区域右上角 */}
+          {/* 悬浮 TOC 切换按钮 — 与 TOAST UI Editor 工具栏按钮垂直居中对齐 */}
           <button
             onClick={() => setShowToc((v) => !v)}
+            style={{ top: "7px", right: "16px" }}
             className={cn(
-              "absolute top-3 right-3 z-20 p-2 rounded-md border bg-background hover:bg-accent transition-colors shadow-sm",
+              "absolute z-20 flex items-center justify-center w-8 h-8 rounded-md border bg-background hover:bg-accent transition-colors shadow-sm",
               showToc && "bg-accent"
             )}
             title="切换目录"
@@ -244,7 +245,7 @@ export default function App() {
           </button>
 
           {showToc && (
-            <div className="absolute top-12 right-3 w-56 max-h-[60%] overflow-auto bg-background/95 backdrop-blur border rounded-lg shadow-lg z-10">
+            <div className="absolute top-12 w-56 max-h-[60%] overflow-auto bg-background/95 backdrop-blur border rounded-lg shadow-lg z-10 mt-1" style={{ right: "16px" }}>
               <Toc containerRef={editorContainerRef} />
             </div>
           )}

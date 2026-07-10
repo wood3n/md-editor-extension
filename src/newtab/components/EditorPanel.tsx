@@ -28,16 +28,19 @@ export function EditorPanel({ defaultValue, onChange, getMarkdownRef, dark }: Ed
     return editorRef.current?.getInstance() ?? null;
   };
 
-  // Toggle the dark theme CSS class on the editor's root element.
-  // TOAST UI Editor applies theme as a class at construction time;
-  // there is no runtime setTheme() API, so we toggle the class directly.
+  // Toggle the dark theme CSS class on the editor's defaultUI element.
+  // TOAST UI Editor applies theme as a class on .toastui-editor-defaultUI
+  // at construction time; there is no runtime setTheme() API, so we toggle
+  // the class directly on the inner defaultUI element.
   const applyTheme = (isDark: boolean) => {
     const rootEl = editorRef.current?.getRootElement();
     if (!rootEl) return;
+    const defaultUI = rootEl.querySelector(".toastui-editor-defaultUI");
+    if (!defaultUI) return;
     if (isDark) {
-      rootEl.classList.add(DARK_THEME_CLASS);
+      defaultUI.classList.add(DARK_THEME_CLASS);
     } else {
-      rootEl.classList.remove(DARK_THEME_CLASS);
+      defaultUI.classList.remove(DARK_THEME_CLASS);
     }
   };
 
@@ -76,7 +79,7 @@ export function EditorPanel({ defaultValue, onChange, getMarkdownRef, dark }: Ed
         initialEditType="markdown"
         height="100%"
         useCommandShortcut={true}
-        hideModeSwitch={false}
+        hideModeSwitch={true}
         theme={dark ? "dark" : "light"}
         onLoad={handleLoad}
         onChange={() => {

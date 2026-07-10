@@ -1,19 +1,25 @@
 # MD Editor - Chrome 扩展
 
-一个功能丰富的 Markdown 编辑器 Chrome 扩展，支持实时预览、Mermaid 图表、本地文档管理和离线缓存。
+一个简洁实用的 Markdown 编辑器 Chrome 扩展，支持 Markdown + 预览分屏、Mermaid 图表、远程文档加载、本地文档管理和离线缓存。
 
 <p align="center">
   <img src="public/icons/icon128.png" alt="MD Editor Logo" width="128" height="128">
 </p>
 
+<p align="center">
+  <img src="screenshots/main.png" alt="MD Editor Light" width="400">
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="screenshots/main-dark.png" alt="MD Editor Dark" width="400">
+</p>
+
 ## 功能特性
 
-- **Markdown 编辑**：基于 [TOAST UI Editor](https://ui.toast.com/tui-editor) 编辑器，提供 Markdown + 预览分屏的编辑体验
+- **Markdown + 预览分屏**：基于 [TOAST UI Editor](https://ui.toast.com/tui-editor)，左侧编辑 Markdown 源码，右侧实时预览渲染效果
 - **远程 Markdown 加载**：直接在浏览器中打开 `.md` 链接，扩展自动读取页面内容并加载到编辑器
 - **智能缓存**：双层缓存（内存 + `chrome.storage.local`），支持 ETag 条件请求，避免服务器限流
 - **本地文档管理**：保存编辑的文档到本地，支持自定义标题，侧边栏管理文档列表
-- **Mermaid 图表**：原生渲染 ` ```mermaid ` 代码块
-- **深色 / 浅色模式**：切换后持久化保存
+- **Mermaid 图表**：原生渲染 `mermaid` 代码块，支持流程图、时序图、甘特图等
+- **深色 / 浅色模式**：一键切换，持久化保存
 - **导出**：下载为 Markdown（`.md`）或 HTML
 - **目录导航**：自动从文档标题生成目录，悬浮在编辑器右上角
 - **快捷键**：`⌘S` / `Ctrl+S` 快速保存
