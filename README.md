@@ -8,7 +8,7 @@
 
 ## 功能特性
 
-- **Markdown 编辑**：基于 [Milkdown](https://milkdown.dev) Crepe 编辑器，提供所见即所得的编辑体验
+- **Markdown 编辑**：基于 [TOAST UI Editor](https://ui.toast.com/tui-editor) 编辑器，提供 Markdown + 预览分屏的编辑体验
 - **远程 Markdown 加载**：直接在浏览器中打开 `.md` 链接，扩展自动读取页面内容并加载到编辑器
 - **智能缓存**：双层缓存（内存 + `chrome.storage.local`），支持 ETag 条件请求，避免服务器限流
 - **本地文档管理**：保存编辑的文档到本地，支持自定义标题，侧边栏管理文档列表
@@ -16,7 +16,6 @@
 - **深色 / 浅色模式**：切换后持久化保存
 - **导出**：下载为 Markdown（`.md`）或 HTML
 - **目录导航**：自动从文档标题生成目录，悬浮在编辑器右上角
-- **代码高亮**：基于 CodeMirror + One Dark 主题
 - **快捷键**：`⌘S` / `Ctrl+S` 快速保存
 
 ## 使用方法
@@ -82,9 +81,8 @@ npm run build  # 生产构建
 
 - **运行环境**：Chrome 扩展（Manifest V3）
 - **前端框架**：React 18 + TypeScript
-- **编辑器**：Milkdown Crepe
+- **编辑器**：TOAST UI Editor
 - **图表**：Mermaid
-- **代码高亮**：CodeMirror 6（One Dark 主题）
 - **构建工具**：Vite + @crxjs/vite-plugin
 - **样式**：Tailwind CSS
 - **图标**：Lucide React
@@ -96,7 +94,7 @@ src/
 ├── background/        # Service worker（扩展图标点击处理）
 ├── newtab/
 │   ├── components/    # React 组件
-│   │   ├── EditorPanel.tsx   # Milkdown Crepe 编辑器
+│   │   ├── EditorPanel.tsx   # TOAST UI Editor 编辑器
 │   │   ├── Toolbar.tsx       # 顶部工具栏
 │   │   ├── Sidebar.tsx       # 已保存文档侧边栏
 │   │   ├── Toc.tsx           # 目录
@@ -109,7 +107,6 @@ src/
 │   │   ├── detect-markdown.ts
 │   │   ├── constants.ts
 │   │   └── utils.ts
-│   ├── plugins/       # Milkdown 插件
 │   ├── App.tsx
 │   └── main.tsx
 ├── styles/
