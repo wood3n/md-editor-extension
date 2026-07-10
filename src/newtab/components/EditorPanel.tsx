@@ -1,6 +1,5 @@
 import { useEffect, useRef } from "react";
 import { Editor } from "@toast-ui/react-editor";
-import type { Editor as ToastEditor } from "@toast-ui/editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import "@toast-ui/editor/dist/theme/toastui-editor-dark.css";
 import mermaid from "mermaid";
@@ -18,13 +17,28 @@ mermaid.initialize({
   securityLevel: "loose",
 });
 
+const DARK_THEME_CLASS = "toastui-editor-dark";
+
 export function EditorPanel({ defaultValue, onChange, getMarkdownRef, dark }: EditorPanelProps) {
   // The ref from @toast-ui/react-editor exposes getInstance() to access
   // the underlying TOAST UI Editor instance.
   const editorRef = useRef<Editor>(null);
 
-  const getInstance = (): ToastEditor | null => {
+  const getInstance = () => {
     return editorRef.current?.getInstance() ?? null;
+  };
+
+  // Toggle the dark theme CSS class on the editor's root element.
+  // TOAST UI Editor applies theme as a class at construction time;
+  // there is no runtime setTheme() API, so we toggle the class directly.
+  const applyTheme = (isDark: boolean) => {
+    const rootEl = editorRef.current?.getRootElement();
+    if (!rootEl) return;
+    if (isDark) {
+      rootEl.classList.add(DARK_THEME_CLASS);
+    } else {
+      rootEl.classList.remove(DARK_THEME_CLASS);
+    }
   };
 
   // Set up getMarkdownRef and initial theme after the editor loads.
@@ -36,15 +50,12 @@ export function EditorPanel({ defaultValue, onChange, getMarkdownRef, dark }: Ed
       getMarkdownRef.current = () => instance.getMarkdown();
     }
 
-    instance.setTheme(dark ? "dark" : "light");
+    applyTheme(!!dark);
   };
 
   // Theme switching without remount.
   useEffect(() => {
-    const instance = getInstance();
-    if (instance) {
-      instance.setTheme(dark ? "dark" : "light");
-    }
+    applyTheme(!!dark);
   }, [dark]);
 
   // Clean up getMarkdownRef on unmount.
@@ -66,6 +77,7 @@ export function EditorPanel({ defaultValue, onChange, getMarkdownRef, dark }: Ed
         height="100%"
         useCommandShortcut={true}
         hideModeSwitch={false}
+        theme={dark ? "dark" : "light"}
         onLoad={handleLoad}
         onChange={() => {
           const instance = getInstance();
@@ -74,7 +86,7 @@ export function EditorPanel({ defaultValue, onChange, getMarkdownRef, dark }: Ed
           }
         }}
         customHTMLRenderer={{
-          codeBlock(node, context) {
+          codeBlock(node: any, context: any) {
             if (node.info === "mermaid" && node.literal) {
               const id = `mermaid-${Math.random().toString(36).slice(2, 9)}`;
               mermaid
