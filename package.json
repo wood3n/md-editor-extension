@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build"
   },
   "dependencies": {
-    "@milkdown/crepe": "^7.21.2",
+    "@toast-ui/editor": "^3.2.2",
+    "@toast-ui/react-editor": "^3.2.3",
     "clsx": "^2.1.1",
     "lucide-react": "^0.468.0",
     "marked": "^18.0.5",
