@@ -227,6 +227,7 @@ export default function App() {
               defaultValue={displayContent}
               onChange={setMarkdown}
               getMarkdownRef={getMarkdownRef}
+              dark={dark}
             />
           </div>
 
