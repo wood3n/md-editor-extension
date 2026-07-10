@@ -1,15 +1,15 @@
 import { useEffect, useRef } from "react";
-import { Crepe, CrepeFeature } from "@milkdown/crepe";
-import "@milkdown/crepe/theme/common/style.css";
-import "@milkdown/crepe/theme/frame.css";
-import { oneDark } from "@codemirror/theme-one-dark";
-import { editorViewCtx } from "@milkdown/core";
+import { Editor } from "@toast-ui/react-editor";
+import type { Editor as ToastEditor } from "@toast-ui/editor";
+import "@toast-ui/editor/dist/toastui-editor.css";
+import "@toast-ui/editor/dist/theme/toastui-editor-dark.css";
 import mermaid from "mermaid";
 
 interface EditorPanelProps {
   defaultValue: string;
   onChange?: (markdown: string) => void;
   getMarkdownRef?: React.MutableRefObject<(() => string) | null>;
+  dark?: boolean;
 }
 
 mermaid.initialize({
@@ -18,86 +18,92 @@ mermaid.initialize({
   securityLevel: "loose",
 });
 
-export function EditorPanel({ defaultValue, onChange, getMarkdownRef }: EditorPanelProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const crepeRef = useRef<Crepe | null>(null);
+export function EditorPanel({ defaultValue, onChange, getMarkdownRef, dark }: EditorPanelProps) {
+  // The ref from @toast-ui/react-editor exposes getInstance() to access
+  // the underlying TOAST UI Editor instance.
+  const editorRef = useRef<Editor>(null);
 
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
+  const getInstance = (): ToastEditor | null => {
+    return editorRef.current?.getInstance() ?? null;
+  };
 
-    if (crepeRef.current) {
-      crepeRef.current.destroy();
-      crepeRef.current = null;
+  // Set up getMarkdownRef and initial theme after the editor loads.
+  const handleLoad = () => {
+    const instance = getInstance();
+    if (!instance) return;
+
+    if (getMarkdownRef) {
+      getMarkdownRef.current = () => instance.getMarkdown();
     }
 
-    container.innerHTML = "";
+    instance.setTheme(dark ? "dark" : "light");
+  };
 
-    const crepe = new Crepe({
-      root: container,
-      defaultValue,
-      featureConfigs: {
-        [CrepeFeature.Placeholder]: {
-          text: "请输入 Markdown 内容…",
-        },
-        [CrepeFeature.CodeMirror]: {
-          theme: oneDark,
-          renderPreview: (language, content, applyPreview) => {
-            if (language === "mermaid" && content) {
-              const id = `mermaid-${Math.random().toString(36).substring(2, 9)}`;
-              const dom = document.createElement("div");
-              dom.className = "mermaid-container";
-              dom.id = id;
-              mermaid
-                .render(`${id}-svg`, content)
-                .then(({ svg }) => {
-                  applyPreview(svg);
-                })
-                .catch((err) => {
-                  applyPreview(
-                    `<span style="color:#DC362E">Mermaid error: ${err.message}</span>`
-                  );
-                });
-              return dom;
-            }
-            return null;
-          },
-        },
-      },
-    });
+  // Theme switching without remount.
+  useEffect(() => {
+    const instance = getInstance();
+    if (instance) {
+      instance.setTheme(dark ? "dark" : "light");
+    }
+  }, [dark]);
 
-    crepe.create().then(() => {
-      crepeRef.current = crepe;
-      if (getMarkdownRef) {
-        getMarkdownRef.current = () => crepe.getMarkdown();
-      }
-      if (onChange) {
-        crepe.on((listener) => {
-          listener.markdownUpdated((_, md) => {
-            onChange(md);
-          });
-        });
-      }
-      // Focus the editor after creation
-      crepe.editor.action((ctx) => {
-        const view = ctx.get(editorViewCtx);
-        view.focus();
-      });
-    });
-
+  // Clean up getMarkdownRef on unmount.
+  useEffect(() => {
     return () => {
-      if (crepeRef.current) {
-        crepeRef.current.destroy();
-        crepeRef.current = null;
+      if (getMarkdownRef) {
+        getMarkdownRef.current = null;
       }
     };
-  }, []);
+  }, [getMarkdownRef]);
 
   return (
-    <div
-      ref={containerRef}
-      className="h-full overflow-auto"
-      id="milkdown-editor"
-    />
+    <div id="toast-editor" className="h-full overflow-hidden">
+      <Editor
+        ref={editorRef}
+        initialValue={defaultValue}
+        previewStyle="vertical"
+        initialEditType="markdown"
+        height="100%"
+        useCommandShortcut={true}
+        hideModeSwitch={false}
+        onLoad={handleLoad}
+        onChange={() => {
+          const instance = getInstance();
+          if (instance) {
+            onChange?.(instance.getMarkdown());
+          }
+        }}
+        customHTMLRenderer={{
+          codeBlock(node, context) {
+            if (node.info === "mermaid" && node.literal) {
+              const id = `mermaid-${Math.random().toString(36).slice(2, 9)}`;
+              mermaid
+                .render(`${id}-svg`, node.literal)
+                .then(({ svg }: { svg: string }) => {
+                  const el = document.getElementById(id);
+                  if (el) el.innerHTML = svg;
+                })
+                .catch((err: Error) => {
+                  const el = document.getElementById(id);
+                  if (el)
+                    el.innerHTML = `<span style="color:#DC362E">Mermaid error: ${err.message}</span>`;
+                });
+              return [
+                {
+                  type: "openTag",
+                  tagName: "div",
+                  classNames: ["mermaid-container"],
+                  attributes: { id },
+                  outerNewLine: true,
+                },
+                { type: "closeTag", tagName: "div", outerNewLine: true },
+              ];
+            }
+            // Non-mermaid: use the default renderer.
+            return context.origin();
+          },
+        }}
+      />
+    </div>
   );
 }
