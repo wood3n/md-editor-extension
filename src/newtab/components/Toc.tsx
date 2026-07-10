@@ -50,7 +50,7 @@ export function Toc({ containerRef }: TocProps) {
     const container = containerRef.current;
     if (!container) return;
 
-    const scrollEl = container.querySelector(".milkdown") || container;
+    const scrollEl = container.querySelector(".toastui-editor") || container;
 
     const handleScroll = () => {
       const headings = container.querySelectorAll("h1, h2, h3, h4");
