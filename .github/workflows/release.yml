@@ -12,20 +12,22 @@ jobs:
   build-and-publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: pnpm/action-setup@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@8912a9102ac27614460f54aedde9e1e7f9aec20d # v6.0.5
         with:
-          version: latest
-
-      - uses: actions/setup-node@v4
+          version: 11
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v6
         with:
-          node-version: lts/*
-          cache: pnpm
+          node-version: ${{ matrix.node-version }}
+          cache: "pnpm"
+      - name: Install dependencies
+        run: pnpm install
 
-      - run: pnpm install --frozen-lockfile
-
-      - run: pnpm build
+      - name: Build extension
+        run: pnpm build
 
       - name: Package extension
         run: |
