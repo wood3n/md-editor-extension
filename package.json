@@ -6,8 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "release": "git fetch --tags origin && changelogen --release --push",
-    "postrelease": "changelogen --from=latest -o /tmp/CHANGELOG-latest.md && gh release create \"v$(node -p \"require('./package.json').version\")\" --draft -F /tmp/CHANGELOG-latest.md",
+    "release": "git fetch --tags --force && changelogen --release --push --hideAuthorEmail",
     "release:dry": "changelogen --dry-run"
   },
   "dependencies": {
