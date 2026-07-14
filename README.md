@@ -23,23 +23,9 @@
 
 ### 手动安装（开发模式）
 
-```bash
-# 克隆仓库
-git clone https://github.com/wood3n/md-editor-extension.git
-cd md-editor-extension
-
-# 安装依赖
-npm install
-
-# 构建
-npm run build
-
-# 在 Chrome 中加载
-# 1. 打开 chrome://extensions
-# 2. 开启"开发者模式"
-# 3. 点击"加载已解压的扩展程序"
-# 4. 选择 dist/ 目录
-```
+1. 下载 GitHub Release 页面的最新版本到本地并解压，链接：https://github.com/wood3n/md-editor-extension/releases
+2. 打开 Chrome 扩展程序管理页面并启动右上角开发者模式
+3. 点击 Chrome 扩展程序管理页面左上角【加载未打包的扩展程序】选择刚才解压的文件目录即可
 
 ## 功能特性
 
