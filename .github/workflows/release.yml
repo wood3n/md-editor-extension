@@ -26,6 +26,28 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Create draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "Release $TAG already exists"
+            exit 0
+          fi
+
+          awk -v tag="$TAG" '
+            $0 == "## " tag { found=1; print; next }
+            found && /^## / { exit }
+            found { print }
+          ' CHANGELOG.md > release-notes.md
+
+          gh release create "$TAG" \
+            --repo "$GITHUB_REPOSITORY" \
+            --draft \
+            --title "$TAG" \
+            --notes-file release-notes.md
+
       - name: Build extension
         run: pnpm build
 
@@ -34,9 +56,8 @@ jobs:
           cd dist
           zip -r ../md-editor-${{ github.ref_name }}.zip .
 
-      - name: Upload asset and publish release
+      - name: Upload asset
         run: |
           gh release upload "${{ github.ref_name }}" md-editor-*.zip --clobber
-          gh release edit "${{ github.ref_name }}" --draft=false --latest
         env:
           GH_TOKEN: ${{ github.token }}
