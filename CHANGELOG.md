@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.2.5](https://github.com/wood3n/md-editor-extension/compare/v1.2.4...v1.2.5) (2026-07-14)
+
+### 🤖 CI
+
+* update actions config ([fd34623](https://github.com/wood3n/md-editor-extension/commit/fd34623addf0f461ee389d738ce0fc568fec16bc))
+
 ## [1.2.4](https://github.com/wood3n/md-editor-extension/compare/v1.2.2...v1.2.4) (2026-07-14)
 
 ### 🤖 CI
