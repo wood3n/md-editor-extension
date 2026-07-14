@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "release": "git fetch --tags --force && changelogen --release --push --hideAuthorEmail",
+    "release": "git fetch --tags --force && changelogen --bump --hideAuthorEmail",
     "release:dry": "changelogen --dry-run"
   },
   "dependencies": {
