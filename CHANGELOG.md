@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.4](https://github.com/wood3n/md-editor-extension/compare/v1.2.2...v1.2.4) (2026-07-14)
+
+### 🤖 CI
+
+* update actions config ([e45fa1e](https://github.com/wood3n/md-editor-extension/commit/e45fa1ead1f55d23577ac35322164de37c65bac5))
+* update release config ([c910885](https://github.com/wood3n/md-editor-extension/commit/c9108850cf5472a10ef6031fb99d1315d35ad1f0))
+* update scripts ([a85c578](https://github.com/wood3n/md-editor-extension/commit/a85c578c4bfdc2c2e514f22f76e4f116fb93676c))
+* update workflow ([3868708](https://github.com/wood3n/md-editor-extension/commit/38687082755c9da147bbbc0a95a4876101ebb905))
 
 ## v1.2.3
 
@@ -85,4 +93,3 @@
 ### ❤️ Contributors
 
 - Oxyg3n <oxyg3ncool@gmail.com>
-
