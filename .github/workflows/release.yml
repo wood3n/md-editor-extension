@@ -2,7 +2,6 @@ name: Release
 
 on:
   push:
-    branches: [master]
     tags:
       - 'v*'
 
@@ -10,33 +9,32 @@ permissions:
   contents: write
 
 jobs:
-  build-and-release:
-    if: startsWith(github.ref, 'refs/tags/v')
+  build-and-publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
+      - uses: pnpm/action-setup@v4
+        with:
+          version: latest
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
+          cache: pnpm
 
-      - run: npm ci
+      - run: pnpm install --frozen-lockfile
 
-      - run: npm run build
+      - run: pnpm build
 
       - name: Package extension
         run: |
           cd dist
           zip -r ../md-editor-${{ github.ref_name }}.zip .
 
-      - name: Generate changelog
-        run: npx changelogen --from=latest --output=CHANGELOG-latest.md
-
-      - name: Create Release
-        uses: softprops/action-gh-release@v2
-        with:
-          name: ${{ github.ref_name }}
-          body_path: CHANGELOG-latest.md
-          files: md-editor-*.zip
-          generate_release_notes: false
+      - name: Upload asset and publish release
+        run: |
+          gh release upload "${{ github.ref_name }}" md-editor-*.zip --clobber
+          gh release edit "${{ github.ref_name }}" --draft=false --latest
+        env:
+          GH_TOKEN: ${{ github.token }}
