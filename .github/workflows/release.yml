@@ -24,7 +24,15 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "pnpm"
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
+
+      - name: Build extension
+        run: pnpm build
+
+      - name: Package extension
+        run: |
+          cd dist
+          zip -r "../md-editor-${{ github.ref_name }}.zip" .
 
       - name: Create draft release
         env:
@@ -44,20 +52,13 @@ jobs:
 
           gh release create "$TAG" \
             --repo "$GITHUB_REPOSITORY" \
+            --verify-tag \
             --draft \
             --title "$TAG" \
             --notes-file release-notes.md
 
-      - name: Build extension
-        run: pnpm build
-
-      - name: Package extension
-        run: |
-          cd dist
-          zip -r ../md-editor-${{ github.ref_name }}.zip .
-
       - name: Upload asset
         run: |
-          gh release upload "${{ github.ref_name }}" md-editor-*.zip --clobber
+          gh release upload "${{ github.ref_name }}" "md-editor-${{ github.ref_name }}.zip" --clobber
         env:
           GH_TOKEN: ${{ github.token }}

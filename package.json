@@ -1,13 +1,17 @@
 {
   "name": "md-editor-extension",
   "private": true,
-  "version": "1.2.2",
+  "version": "1.2.3",
   "type": "module",
+  "packageManager": "pnpm@11.13.0",
+  "engines": {
+    "node": ">=20.19.0"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "release": "git fetch --tags --force && changelogen --bump --hideAuthorEmail",
-    "release:dry": "changelogen --dry-run"
+    "release": "git fetch --tags --force && release-it",
+    "release:dry": "release-it --dry-run"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.3.2",
@@ -23,14 +27,15 @@
   },
   "devDependencies": {
     "@crxjs/vite-plugin": "^2.7.1",
+    "@release-it/conventional-changelog": "^11.0.1",
     "@types/chrome": "^0.2.2",
     "@types/node": "^26.1.1",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^6.0.3",
     "autoprefixer": "^10.5.2",
-    "changelogen": "^0.6.2",
     "postcss": "^8.5.18",
+    "release-it": "^20.2.1",
     "tailwindcss": "^4.3.2",
     "typescript": "^7.0.2",
     "vite": "^8.1.4"
