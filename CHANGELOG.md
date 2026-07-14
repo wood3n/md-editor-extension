@@ -1,6 +1,22 @@
 # Changelog
 
 
+## v1.2.1
+
+[compare changes](https://github.com/wood3n/md-editor-extension/compare/v1.2.0...v1.2.1)
+
+### 📖 Documentation
+
+- Update readme ([e32506c](https://github.com/wood3n/md-editor-extension/commit/e32506c))
+
+### 📦 Build
+
+- Update scripts ([b4a1e84](https://github.com/wood3n/md-editor-extension/commit/b4a1e84))
+
+### ❤️ Contributors
+
+- Oxyg3n
+
 ## v1.2.0
 
 
