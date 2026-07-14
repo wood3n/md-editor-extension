@@ -1,6 +1,19 @@
 # Changelog
 
 
+## v1.2.2
+
+[compare changes](https://github.com/wood3n/md-editor-extension/compare/v1.2.1...v1.2.2)
+
+### 🤖 CI
+
+- Update actions node version ([c5bf6a1](https://github.com/wood3n/md-editor-extension/commit/c5bf6a1))
+- Update actions tool version ([d37b5c8](https://github.com/wood3n/md-editor-extension/commit/d37b5c8))
+
+### ❤️ Contributors
+
+- Oxyg3n
+
 ## v1.2.1
 
 [compare changes](https://github.com/wood3n/md-editor-extension/compare/v1.2.0...v1.2.1)
