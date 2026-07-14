@@ -3,6 +3,7 @@ import react from "@vitejs/plugin-react";
 import { crx } from "@crxjs/vite-plugin";
 import path from "path";
 import { fileURLToPath } from "url";
+import pkg from "./package.json" with { type: "json" };
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -13,7 +14,7 @@ export default defineConfig({
       manifest: {
         manifest_version: 3,
         name: "MD Editor",
-        version: "1.0.0",
+        version: pkg.version,
         description: "A Markdown editor and previewer with Mermaid support",
         action: {
           default_title: "MD Editor",

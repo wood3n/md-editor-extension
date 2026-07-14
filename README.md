@@ -6,11 +6,40 @@
   <img src="public/icons/icon128.png" alt="MD Editor Logo" width="128" height="128">
 </p>
 
-<p align="center">
-  <img src="screenshots/main.png" alt="MD Editor Light" width="400">
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="screenshots/main-dark.png" alt="MD Editor Dark" width="400">
-</p>
+<table align="center">
+  <tr>
+    <td align="center"><img src="screenshots/main.png" alt="MD Editor Light" width="400"></td>
+    <td align="center"><img src="screenshots/main-dark.png" alt="MD Editor Dark" width="400"></td>
+  </tr>
+</table>
+
+## 安装
+
+### Chrome Web Store
+
+<a href="https://chromewebstore.google.com/detail/md-editor/fglfkepmpfamlbogmhhbacghhbanakfi?authuser=0&hl=zh-CN" target="_blank">
+  <img src="screenshots/web-store-icon.svg" alt="Chrome Web Store 下载" width="124">
+</a>
+
+### 手动安装（开发模式）
+
+```bash
+# 克隆仓库
+git clone https://github.com/wood3n/md-editor-extension.git
+cd md-editor-extension
+
+# 安装依赖
+npm install
+
+# 构建
+npm run build
+
+# 在 Chrome 中加载
+# 1. 打开 chrome://extensions
+# 2. 开启"开发者模式"
+# 3. 点击"加载已解压的扩展程序"
+# 4. 选择 dist/ 目录
+```
 
 ## 功能特性
 
@@ -49,32 +78,6 @@
 
 - 点击 **MD** 按钮下载 `.md` 文件
 - 点击 **⋯** → **导出 HTML** 导出为 HTML
-
-## 安装
-
-### 从 Chrome Web Store
-
-> *即将上线*
-
-### 手动安装（开发模式）
-
-```bash
-# 克隆仓库
-git clone https://github.com/wood3n/md-editor-extension.git
-cd md-editor-extension
-
-# 安装依赖
-npm install
-
-# 构建
-npm run build
-
-# 在 Chrome 中加载
-# 1. 打开 chrome://extensions
-# 2. 开启"开发者模式"
-# 3. 点击"加载已解压的扩展程序"
-# 4. 选择 dist/ 目录
-```
 
 ## 开发
 

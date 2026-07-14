@@ -1,0 +1,9 @@
+{
+  "types": {
+    "feat": { "title": "🚀 新功能" },
+    "fix": { "title": "🐛 修复" },
+    "docs": { "title": "📝 文档" },
+    "refactor": { "title": "♻️ 重构" },
+    "chore": { "title": "🔧 杂项" }
+  }
+}

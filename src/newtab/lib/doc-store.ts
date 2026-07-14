@@ -22,7 +22,7 @@ function generateId(): string {
 export async function loadDocs(): Promise<SavedDoc[]> {
   try {
     const result = await chrome.storage.local.get(STORAGE_KEY);
-    const docs: SavedDoc[] = result[STORAGE_KEY] || [];
+    const docs: SavedDoc[] = (result[STORAGE_KEY] as SavedDoc[] | undefined) || [];
     return docs.sort((a, b) => b.updatedAt - a.updatedAt);
   } catch {
     return [];

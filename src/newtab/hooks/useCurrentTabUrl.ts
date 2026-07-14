@@ -23,7 +23,7 @@ async function readPreloadedContent(url: string): Promise<string | null> {
   try {
     const key = STORAGE_KEY_PREFIX + url;
     const result = await chrome.storage.local.get(key);
-    const entry = result[key];
+    const entry = result[key] as { content?: unknown } | undefined;
     if (entry?.content && typeof entry.content === "string" && entry.content.trim()) {
       chrome.storage.local.remove(key);
       return entry.content;

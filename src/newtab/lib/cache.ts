@@ -68,7 +68,7 @@ function buildConditionalHeaders(entry: CacheEntry): HeadersInit {
 async function loadStorageCache(): Promise<void> {
   try {
     const result = await chrome.storage.local.get(STORAGE_KEY);
-    const data: StorageCacheData = result[STORAGE_KEY];
+    const data: StorageCacheData | undefined = result[STORAGE_KEY] as StorageCacheData | undefined;
     if (data && typeof data === "object") {
       for (const [url, entry] of Object.entries(data)) {
         // Only load into memory if not already there and not too old
