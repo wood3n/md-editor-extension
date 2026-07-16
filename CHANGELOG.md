@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.2.6](https://github.com/wood3n/md-editor-extension/compare/v1.2.5...v1.2.6) (2026-07-16)
+
+### 💅 Refactors
+
+* replace TOAST UI Editor with CodeMirror 6 + markdown-it + shiki ([02ab501](https://github.com/wood3n/md-editor-extension/commit/02ab501d51b043891e1c39e137fc9ba64464841f))
+
 ## [1.2.5](https://github.com/wood3n/md-editor-extension/compare/v1.2.4...v1.2.5) (2026-07-14)
 
 ### 🤖 CI
