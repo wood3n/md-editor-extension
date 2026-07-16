@@ -36,9 +36,9 @@
 - **Markdown + 预览分屏**：左侧 CodeMirror 6 编辑器（支持语法高亮和自动补全），右侧 markdown-it + shiki 实时渲染
 - **统一主题系统**：12 套预设主题（GitHub Light/Dark、One Dark、Tailwind、Monokai、Dracula、Nord、Solarized 等），一键切换编辑器、预览区和代码高亮
 - **Markdown 语法工具栏**：标题、加粗、斜体、下划线、删除线、引用、任务列表、表格、图片、链接、代码块等快捷插入按钮
-- **代码高亮**：基于 shiki，支持行号显示，40+ 编程语言语法高亮
+- **代码高亮**：基于 shiki，支持行号显示
 - **远程 Markdown 加载**：直接在浏览器中打开 `.md` 链接，扩展自动读取页面内容并加载到编辑器
-- **智能缓存**：双层缓存（内存 + `chrome.storage.local`），支持 ETag 条件请求，避免服务器限流
+- **智能缓存**：双层缓存（内存 + `chrome.storage.local`）
 - **本地文档管理**：保存编辑的文档到本地，支持自定义标题，侧边栏管理文档列表
 - **Mermaid 图表**：原生渲染 `mermaid` 代码块，支持流程图、时序图、甘特图等
 - **导出**：下载为 Markdown（`.md`）或 HTML
@@ -50,20 +50,20 @@
 
 内置 **12 套精心设计的主题预设**，点击右上角调色板按钮即可切换。每套主题会同步应用到顶部导航栏、编辑区、预览区、侧边栏和代码高亮，提供沉浸式写作体验。
 
-| 主题 | 风格 | 预览 | 代码 | 编辑器 |
-|------|------|------|------|------|
-| GitHub Light | 浅色 | GitHub 风格排版 | GitHub Light | GitHub Light |
-| GitHub Dark | 深色 | GitHub Dark 风格 | GitHub Dark | GitHub Dark |
-| One Dark | 深色 | Atom One Dark | One Dark Pro | One Dark |
-| Tailwind | 浅色 | Tailwind 风格 | GitHub Light | Light |
-| Tailwind Dark | 深色 | Tailwind 暗色 | Houston | GitHub Dark |
-| Monokai | 深色 | One Dark | Monokai | Monokai |
-| Dracula | 深色 | GitHub Dark | Dracula | Dracula |
-| Nord | 深色 | One Dark | Nord | Nord |
-| Solarized Light | 浅色 | GitHub Light | Solarized Light | Light |
-| Solarized Dark | 深色 | GitHub Dark | Solarized Dark | GitHub Dark |
-| VS Code Dark | 深色 | GitHub Dark | GitHub Dark | VS Code Dark |
-| Sublime | 深色 | One Dark | GitHub Dark | Sublime |
+| 主题            | 风格 | 预览             | 代码            | 编辑器       |
+| --------------- | ---- | ---------------- | --------------- | ------------ |
+| GitHub Light    | 浅色 | GitHub 风格排版  | GitHub Light    | GitHub Light |
+| GitHub Dark     | 深色 | GitHub Dark 风格 | GitHub Dark     | GitHub Dark  |
+| One Dark        | 深色 | Atom One Dark    | One Dark Pro    | One Dark     |
+| Tailwind        | 浅色 | Tailwind 风格    | GitHub Light    | Light        |
+| Tailwind Dark   | 深色 | Tailwind 暗色    | Houston         | GitHub Dark  |
+| Monokai         | 深色 | One Dark         | Monokai         | Monokai      |
+| Dracula         | 深色 | GitHub Dark      | Dracula         | Dracula      |
+| Nord            | 深色 | One Dark         | Nord            | Nord         |
+| Solarized Light | 浅色 | GitHub Light     | Solarized Light | Light        |
+| Solarized Dark  | 深色 | GitHub Dark      | Solarized Dark  | GitHub Dark  |
+| VS Code Dark    | 深色 | GitHub Dark      | GitHub Dark     | VS Code Dark |
+| Sublime         | 深色 | One Dark         | GitHub Dark     | Sublime      |
 
 ### 🌐 远程文档直接编辑
 
