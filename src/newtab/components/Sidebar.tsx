@@ -1,7 +1,8 @@
 import { useEffect, useState, useCallback } from "react";
 import { Trash2 } from "lucide-react";
 import { SavedDoc, loadDocs, deleteDoc } from "../lib/doc-store";
-import { cn } from "../lib/utils";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/newtab/lib/utils";
 
 interface SidebarProps {
   open: boolean;
@@ -33,17 +34,16 @@ export function Sidebar({ open, activeDocId, onSelectDoc, onDeleteDoc, refreshKe
 
   const formatDate = (ts: number) => {
     const d = new Date(ts);
-    return d.toLocaleDateString([], {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-    });
+    return d.toLocaleDateString([], { month: "short", day: "numeric", year: "numeric" });
   };
 
   if (!open) return null;
 
   return (
-    <div className="w-60 h-full border-r bg-background shrink-0 flex flex-col">
+    <div
+      className="w-60 h-full border-r shrink-0 flex flex-col"
+      style={{ backgroundColor: "var(--chrome-bg)", borderColor: "var(--chrome-border)" }}
+    >
       <div className="flex items-center px-3 border-b" style={{ height: "45px" }}>
         <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
           文档列表
@@ -60,13 +60,16 @@ export function Sidebar({ open, activeDocId, onSelectDoc, onDeleteDoc, refreshKe
             {docs.map((doc) => (
               <li
                 key={doc.id}
-                onClick={() => onSelectDoc(doc)}
                 onMouseEnter={() => setHoverId(doc.id)}
                 onMouseLeave={() => setHoverId(null)}
+                onClick={() => onSelectDoc(doc)}
                 className={cn(
-                  "group flex items-center justify-between px-3 py-2.5 cursor-pointer transition-colors hover:bg-accent",
-                  activeDocId === doc.id && "bg-accent"
+                  "group flex items-center justify-between px-3 py-2.5 cursor-pointer transition-colors",
+                  activeDocId === doc.id && "font-medium"
                 )}
+                style={{
+                  backgroundColor: activeDocId === doc.id ? "var(--chrome-active)" : (hoverId === doc.id ? "var(--chrome-hover)" : "transparent"),
+                }}
               >
                 <div className="min-w-0 flex-1">
                   <p className="text-xs font-medium truncate">{doc.title}</p>
@@ -75,13 +78,15 @@ export function Sidebar({ open, activeDocId, onSelectDoc, onDeleteDoc, refreshKe
                   </p>
                 </div>
                 {hoverId === doc.id && (
-                  <button
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-6 w-6 shrink-0 ml-1 text-muted-foreground hover:text-red-500 hover:bg-red-100 dark:hover:bg-red-900/30"
                     onClick={(e) => handleDelete(e, doc.id)}
-                    className="p-1 rounded hover:bg-red-100 dark:hover:bg-red-900/30 text-muted-foreground hover:text-red-500 transition-colors shrink-0 ml-1"
                     title="删除文档"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
-                  </button>
+                  </Button>
                 )}
               </li>
             ))}

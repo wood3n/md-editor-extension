@@ -1,16 +1,18 @@
-import { useState, useCallback, useMemo, useRef, useEffect } from "react";
-import { ListTree, X } from "lucide-react";
-import { cn } from "./lib/utils";
+import { useState, useCallback, useEffect, startTransition } from "react";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { Toaster, toast } from "sonner";
 import { DEFAULT_MARKDOWN } from "./lib/constants";
 import { Toolbar } from "./components/Toolbar";
-import { EditorPanel } from "./components/EditorPanel";
-import { Toc } from "./components/Toc";
+import { MarkdownEditor } from "./components/MarkdownEditor";
 import { Sidebar } from "./components/Sidebar";
 import { SaveDialog } from "./components/SaveDialog";
 import { RenameDialog } from "./components/RenameDialog";
-import { Toast } from "./components/Toast";
 import { useCurrentTabUrl } from "./hooks/useCurrentTabUrl";
-import { saveDoc, updateDoc, SavedDoc } from "./lib/doc-store";
+import { saveDoc, updateDoc, type SavedDoc } from "./lib/doc-store";
+import { renderMarkdown, getOrCreateRenderer } from "./lib/markdown";
+import { THEME_PRESETS, type ThemePreset } from "@/newtab/lib/themes";
+
+const DEFAULT_THEME = "github-light";
 
 export default function App() {
   const [markdown, setMarkdown] = useState(DEFAULT_MARKDOWN);
@@ -19,59 +21,55 @@ export default function App() {
   const [showSaveDialog, setShowSaveDialog] = useState(false);
   const [showRenameDialog, setShowRenameDialog] = useState(false);
   const [activeDoc, setActiveDoc] = useState<SavedDoc | null>(null);
-  const [saved, setSaved] = useState(false);
   const [saveCount, setSaveCount] = useState(0);
-  const [dark, setDark] = useState(() => {
-    const saved = localStorage.getItem("md-editor-theme");
-    if (saved !== null) return saved === "dark";
-    return window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+  // Unified theme state
+  const [currentThemeId, setCurrentThemeId] = useState(() => {
+    return localStorage.getItem("md-current-theme") || DEFAULT_THEME;
   });
 
-  const toggleDark = useCallback(() => {
-    setDark((prev) => {
-      const next = !prev;
-      localStorage.setItem("md-editor-theme", next ? "dark" : "light");
-      return next;
+  const currentPreset = THEME_PRESETS.find((p) => p.id === currentThemeId) || THEME_PRESETS[0];
+  const dark = currentPreset.dark;
+  const previewTheme = currentPreset.previewTheme;
+  const codeTheme = currentPreset.codeTheme;
+  const editorTheme = currentPreset.editorTheme;
+  const chromeBg = currentPreset.chromeBg;
+  const chromeBorder = currentPreset.chromeBorder;
+  const chromeHover = currentPreset.chromeHover;
+  const chromeActive = currentPreset.chromeActive;
+
+  const handleThemeChange = useCallback((preset: ThemePreset) => {
+    startTransition(() => {
+      setCurrentThemeId(preset.id);
     });
+    localStorage.setItem("md-current-theme", preset.id);
   }, []);
 
-  const { mdUrl, loading, loadedContent, error } = useCurrentTabUrl();
-  const editorContainerRef = useRef<HTMLDivElement>(null);
-  const getMarkdownRef = useRef<(() => string) | null>(null);
-
+  // Apply dark class
   useEffect(() => {
     document.documentElement.classList.toggle("dark", dark);
   }, [dark]);
 
+  const { mdUrl, loading, loadedContent, error } = useCurrentTabUrl();
+
   // Sync initial markdown with loaded content
+  const lastLoadedRef = useState<{ current: string | null }>({ current: null })[0];
   useEffect(() => {
     if (loadedContent !== null && markdown === DEFAULT_MARKDOWN && !activeDoc) {
       setMarkdown(loadedContent);
+      lastLoadedRef.current = loadedContent;
     }
   }, [loadedContent]);
 
-  const editorKey = useRef(0);
-  const lastLoadedRef = useRef<string | null>(null);
-  const displayContent = useMemo(() => {
-    if (loadedContent !== null && loadedContent !== lastLoadedRef.current) {
-      lastLoadedRef.current = loadedContent;
-      editorKey.current += 1;
-      return loadedContent;
-    }
-    return markdown;
-  }, [loadedContent, markdown]);
-
   // ── Save ──
   const handleSaveClick = useCallback(async () => {
-    const content = getMarkdownRef.current?.() || markdown;
-
+    const content = markdown;
     if (activeDoc) {
       const updated = await updateDoc(activeDoc.id, { content });
       if (updated) {
         setActiveDoc(updated);
-        setSaved(true);
         setSaveCount((c) => c + 1);
-        setTimeout(() => setSaved(false), 2000);
+        toast.success("已保存");
       }
     } else {
       setShowSaveDialog(true);
@@ -80,12 +78,11 @@ export default function App() {
 
   const handleSaveConfirm = useCallback(
     async (title: string) => {
-      const content = getMarkdownRef.current?.() || markdown;
+      const content = markdown;
       const doc = await saveDoc(title, content);
       setActiveDoc(doc);
-      setSaved(true);
       setSaveCount((c) => c + 1);
-      setTimeout(() => setSaved(false), 2000);
+      toast.success("已保存");
     },
     [markdown]
   );
@@ -107,14 +104,12 @@ export default function App() {
     setActiveDoc(doc);
     setMarkdown(doc.content);
     lastLoadedRef.current = doc.content;
-    editorKey.current += 1;
   }, []);
 
   // ── New document ──
   const handleNewDoc = useCallback(() => {
     setActiveDoc(null);
     setMarkdown(DEFAULT_MARKDOWN);
-    editorKey.current += 1;
     lastLoadedRef.current = null;
   }, []);
 
@@ -130,7 +125,7 @@ export default function App() {
 
   // ── Export ──
   const handleExportMd = useCallback(() => {
-    const md = getMarkdownRef.current?.() || markdown;
+    const md = markdown;
     const name = (activeDoc?.title || "document").replace(/[<>:"/\\|?*]/g, "_");
     const blob = new Blob([md], { type: "text/markdown;charset=utf-8" });
     const a = document.createElement("a");
@@ -140,10 +135,8 @@ export default function App() {
   }, [markdown, activeDoc]);
 
   const handleExportPdf = useCallback(async () => {
-    const { marked } = await import("marked");
-    const md = getMarkdownRef.current?.() || markdown;
-    const html = await marked.parse(md || "");
-
+    const md = await getOrCreateRenderer(codeTheme);
+    const html = renderMarkdown(md, markdown || "");
     const doc = `<!DOCTYPE html>
 <html><head><meta charset="UTF-8"><title>MD Editor Export</title>
 <style>
@@ -156,121 +149,119 @@ export default function App() {
   blockquote { border-left:3px solid #ddd; margin:.8em 0; padding:.4em .8em; color:#555; }
   table { border-collapse:collapse; width:100%; } th,td { border:1px solid #ddd; padding:6px 10px; } th { background:#f5f5f5; }
 </style></head><body>${html}</body></html>`;
-
     const blob = new Blob([doc], { type: "text/html;charset=utf-8" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
     a.download = "document.html";
     a.click();
-  }, [markdown]);
+  }, [markdown, codeTheme]);
+
+  // Apply chrome vars to <html> so portal-rendered elements (dropdowns, dialogs) inherit them
+  useEffect(() => {
+    const html = document.documentElement;
+    html.style.setProperty("--chrome-bg", chromeBg);
+    html.style.setProperty("--chrome-border", chromeBorder);
+    html.style.setProperty("--chrome-hover", chromeHover);
+    html.style.setProperty("--chrome-active", chromeActive);
+    html.style.setProperty("--background", chromeBg);
+    html.style.setProperty("--muted", chromeHover);
+    html.style.setProperty("--accent", chromeActive);
+    html.style.setProperty("--popover", chromeBg);
+    html.style.setProperty("--card", chromeBg);
+    html.style.setProperty("--border", chromeBorder);
+    html.style.setProperty("--input", chromeBorder);
+  }, [chromeBg, chromeBorder, chromeHover, chromeActive]);
 
   const activeDateStr = activeDoc
     ? new Date(activeDoc.updatedAt).toLocaleDateString()
     : "";
 
   return (
-    <div className="flex flex-col h-screen bg-background">
-      <Toolbar
-        onExportPdf={handleExportPdf}
-        onExportMd={handleExportMd}
-        dark={dark}
-        onToggleDark={toggleDark}
-        onSave={handleSaveClick}
-        onNewDoc={handleNewDoc}
-        onEditDoc={() => setShowRenameDialog(true)}
-        sidebarOpen={showSidebar}
-        onToggleSidebar={() => setShowSidebar((v) => !v)}
-        docTitle={activeDoc?.title}
-        docTime={activeDoc ? activeDateStr : undefined}
-      />
-
-      {/* Remote URL status bar */}
-      {mdUrl && !activeDoc && (
-        <div className="no-print flex items-center gap-2 px-4 py-1.5 text-xs bg-muted dark:bg-blue-950 border-b">
-          {loading ? (
-            <>
-              <span className="inline-block w-3 h-3 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
-              <span className="text-muted-foreground">加载中：{mdUrl}</span>
-            </>
-          ) : error ? (
-            <>
-              <span className="text-red-500">✕</span>
-              <span className="text-red-600">{error}</span>
-            </>
-          ) : (
-            <>
-              <span className="text-green-500">✓</span>
-              <span className="text-muted-foreground">已加载：{mdUrl}</span>
-            </>
-          )}
-        </div>
-      )}
-
-      {/* Body: sidebar + editor */}
-      <div className="flex-1 flex overflow-hidden relative">
-        <Sidebar
-          open={showSidebar}
-          activeDocId={activeDoc?.id ?? null}
-          onSelectDoc={handleSelectDoc}
-          onDeleteDoc={(id) => {
-            if (activeDoc?.id === id) {
-              setActiveDoc(null);
-            }
-          }}
-          refreshKey={saveCount}
+    <TooltipProvider delay={300}>
+      <div className="flex flex-col h-screen bg-background">
+        <Toolbar
+          onExportPdf={handleExportPdf}
+          onExportMd={handleExportMd}
+          onSave={handleSaveClick}
+          onNewDoc={handleNewDoc}
+          onEditDoc={() => setShowRenameDialog(true)}
+          sidebarOpen={showSidebar}
+          onToggleSidebar={() => setShowSidebar((v) => !v)}
+          docTitle={activeDoc?.title}
+          docTime={activeDoc ? activeDateStr : undefined}
+          currentTheme={currentThemeId}
+          onThemeChange={handleThemeChange}
         />
 
-        <div className="flex-1 relative overflow-hidden">
-          <div ref={editorContainerRef} className="h-full">
-            <EditorPanel
-              key={editorKey.current}
-              defaultValue={displayContent}
+        {/* Remote URL status bar */}
+        {mdUrl && !activeDoc && (
+            <div
+              className="flex items-center gap-2 px-4 py-1.5 text-xs border-b"
+              style={{ backgroundColor: "var(--chrome-bg)", borderColor: "var(--chrome-border)" }}
+            >
+            {loading ? (
+              <>
+                <span className="inline-block w-3 h-3 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+                <span className="text-muted-foreground">加载中：{mdUrl}</span>
+              </>
+            ) : error ? (
+              <>
+                <span className="text-red-500">✕</span>
+                <span className="text-red-600">{error}</span>
+              </>
+            ) : (
+              <>
+                <span className="text-green-500">✓</span>
+                <span className="text-muted-foreground">已加载：{mdUrl}</span>
+              </>
+            )}
+          </div>
+        )}
+
+        {/* Body: sidebar + editor */}
+        <div className="flex-1 flex overflow-hidden">
+          <Sidebar
+            open={showSidebar}
+            activeDocId={activeDoc?.id ?? null}
+            onSelectDoc={handleSelectDoc}
+            onDeleteDoc={(id) => {
+              if (activeDoc?.id === id) {
+                setActiveDoc(null);
+              }
+            }}
+            refreshKey={saveCount}
+          />
+
+          <div className="flex-1 overflow-hidden relative">
+            <MarkdownEditor
+              value={markdown}
               onChange={setMarkdown}
-              getMarkdownRef={getMarkdownRef}
-              dark={dark}
+              showToc={showToc}
+              onToggleToc={() => setShowToc((v) => !v)}
+              previewTheme={previewTheme}
+              codeTheme={codeTheme}
+              editorTheme={editorTheme}
+              previewBg={chromeBg}
             />
           </div>
-
-          {/* 悬浮 TOC 切换按钮 — 与 TOAST UI Editor 工具栏按钮垂直居中对齐 */}
-          <button
-            onClick={() => setShowToc((v) => !v)}
-            style={{ top: "7px", right: "16px" }}
-            className={cn(
-              "absolute z-20 flex items-center justify-center w-8 h-8 rounded-md border bg-background hover:bg-accent transition-colors shadow-sm",
-              showToc && "bg-accent"
-            )}
-            title="切换目录"
-          >
-            {showToc ? <X className="w-4 h-4" /> : <ListTree className="w-4 h-4" />}
-          </button>
-
-          {showToc && (
-            <div className="absolute top-12 w-56 max-h-[60%] overflow-auto bg-background/95 backdrop-blur border rounded-lg shadow-lg z-10 mt-1" style={{ right: "16px" }}>
-              <Toc containerRef={editorContainerRef} />
-            </div>
-          )}
         </div>
+
+        {/* Dialogs */}
+        <SaveDialog
+          open={showSaveDialog}
+          onClose={() => setShowSaveDialog(false)}
+          onSave={handleSaveConfirm}
+        />
+
+        <RenameDialog
+          open={showRenameDialog}
+          currentTitle={activeDoc?.title ?? ""}
+          onClose={() => setShowRenameDialog(false)}
+          onSave={handleRename}
+        />
+
+        <Toaster position="top-center" duration={2000} />
       </div>
-
-      {/* Save dialog */}
-      <SaveDialog
-        open={showSaveDialog}
-        onClose={() => setShowSaveDialog(false)}
-        onSave={handleSaveConfirm}
-      />
-
-      <RenameDialog
-        open={showRenameDialog}
-        currentTitle={activeDoc?.title ?? ""}
-        onClose={() => setShowRenameDialog(false)}
-        onSave={handleRename}
-      />
-
-      <Toast
-        message="已保存"
-        show={saved}
-        onDone={() => setSaved(false)}
-      />
-    </div>
+    </TooltipProvider>
   );
 }

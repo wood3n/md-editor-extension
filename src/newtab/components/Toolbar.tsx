@@ -1,12 +1,35 @@
-import { useState, useRef, useEffect } from "react";
-import { Save, Plus, FileDown, MoreHorizontal, Sun, Moon, PanelLeftOpen, PanelLeftClose, Pencil } from "lucide-react";
-import { cn } from "../lib/utils";
+import {
+  Save,
+  Plus,
+  FileDown,
+  MoreHorizontal,
+  Palette,
+  PanelLeftOpen,
+  PanelLeftClose,
+  Pencil,
+  Check,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
+import { cn } from "@/newtab/lib/utils";
+import { THEME_PRESETS, type ThemePreset } from "@/newtab/lib/themes";
 
 interface ToolbarProps {
   onExportPdf: () => void;
   onExportMd: () => void;
-  dark: boolean;
-  onToggleDark: () => void;
   onSave: () => void;
   onNewDoc: () => void;
   onEditDoc?: () => void;
@@ -14,14 +37,14 @@ interface ToolbarProps {
   onToggleSidebar: () => void;
   docTitle?: string;
   docTime?: string;
+  currentTheme: string;
+  onThemeChange: (preset: ThemePreset) => void;
   className?: string;
 }
 
 export function Toolbar({
   onExportPdf,
   onExportMd,
-  dark,
-  onToggleDark,
   onSave,
   onNewDoc,
   onEditDoc,
@@ -29,43 +52,40 @@ export function Toolbar({
   onToggleSidebar,
   docTitle,
   docTime,
+  currentTheme,
+  onThemeChange,
   className,
 }: ToolbarProps) {
-  const [showMore, setShowMore] = useState(false);
-  const moreRef = useRef<HTMLDivElement>(null);
-
-  // Close dropdown on outside click
-  useEffect(() => {
-    if (!showMore) return;
-    const handleClick = (e: MouseEvent) => {
-      if (moreRef.current && !moreRef.current.contains(e.target as Node)) {
-        setShowMore(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClick);
-    return () => document.removeEventListener("mousedown", handleClick);
-  }, [showMore]);
-
   return (
     <div
       className={cn(
-        "no-print flex items-center h-12 px-4 border-b bg-background shrink-0 gap-2",
+        "flex items-center h-12 px-3 border-b shrink-0 gap-2",
         className
       )}
+      style={{ backgroundColor: "var(--chrome-bg)", borderColor: "var(--chrome-border)" }}
     >
-      {/* 侧边栏开关 — 左上角 */}
-      <button
-        onClick={onToggleSidebar}
-        className={cn(
-          "p-2 rounded-md border hover:bg-accent transition-colors",
-          sidebarOpen && "bg-accent"
-        )}
-        title={sidebarOpen ? "关闭侧边栏" : "打开侧边栏"}
-      >
-        {sidebarOpen ? <PanelLeftClose className="w-4 h-4" /> : <PanelLeftOpen className="w-4 h-4" />}
-      </button>
+      {/* 侧边栏开关 */}
+      <Tooltip>
+        <TooltipTrigger>
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={onToggleSidebar}
+            type="button"
+          >
+            {sidebarOpen ? (
+              <PanelLeftClose className="h-4 w-4" />
+            ) : (
+              <PanelLeftOpen className="h-4 w-4" />
+            )}
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>
+          {sidebarOpen ? "关闭侧边栏" : "打开侧边栏"}
+        </TooltipContent>
+      </Tooltip>
 
-      {/* 文档标题和日期 — 侧边栏按钮右侧 */}
+      {/* 文档标题和日期 */}
       {docTitle && (
         <div className="group flex items-center gap-1 ml-1 min-w-0">
           <span className="text-sm font-medium truncate">{docTitle}</span>
@@ -74,80 +94,116 @@ export function Toolbar({
               · {docTime}
             </span>
           )}
-          <button
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-6 w-6 opacity-0 group-hover:opacity-100 transition-all"
             onClick={onEditDoc}
-            className="opacity-0 group-hover:opacity-100 p-0.5 rounded hover:bg-accent transition-all"
-            title="编辑标题"
+            type="button"
           >
             <Pencil className="w-3.5 h-3.5 text-muted-foreground" />
-          </button>
+          </Button>
         </div>
       )}
 
       <div className="flex-1" />
 
-      {/* 右上角按钮组 */}
-
       {/* 新建 */}
-      <button
-        onClick={onNewDoc}
-        className="p-2 rounded-md border hover:bg-accent transition-colors"
-        title="新建文档"
-      >
-        <Plus className="w-4 h-4" />
-      </button>
+      <Tooltip>
+        <TooltipTrigger>
+          <Button variant="outline" size="icon" onClick={onNewDoc} type="button">
+            <Plus className="h-4 w-4" />
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>新建文档</TooltipContent>
+      </Tooltip>
 
       {/* 保存 */}
-      <button
-        onClick={onSave}
-        className="p-2 rounded-md border hover:bg-accent transition-colors"
-        title="保存到本地 (⌘S)"
-      >
-        <Save className="w-4 h-4" />
-      </button>
+      <Tooltip>
+        <TooltipTrigger>
+          <Button variant="outline" size="icon" onClick={onSave} type="button">
+            <Save className="h-4 w-4" />
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>保存到本地 (⌘S)</TooltipContent>
+      </Tooltip>
 
-      {/* 导出按钮组：MD + More */}
-      <div className="flex">
-        <button
-          onClick={onExportMd}
-          className="flex items-center gap-1.5 px-3 py-2 text-xs rounded-l-md border border-r-0 hover:bg-accent transition-colors"
-          title="下载 Markdown"
-        >
-          <FileDown className="w-4 h-4" />
-          <span className="hidden sm:inline">MD</span>
-        </button>
+      {/* 导出按钮组 */}
+      <div className="flex items-center">
+        <Tooltip>
+          <TooltipTrigger>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={onExportMd}
+              className="rounded-r-none"
+              type="button"
+            >
+              <FileDown className="h-4 w-4" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>下载 Markdown</TooltipContent>
+        </Tooltip>
 
-        <div ref={moreRef} className="relative">
-          <button
-            onClick={() => setShowMore((v) => !v)}
-            className="flex items-center px-2 py-2 text-xs rounded-r-md border hover:bg-accent transition-colors"
-            title="更多"
-          >
-            <MoreHorizontal className="w-4 h-4" />
-          </button>
-
-          {showMore && (
-            <div className="absolute right-0 top-full mt-1 w-36 bg-background border rounded-lg shadow-lg z-50 py-1">
-              <button
-                onClick={() => { onExportPdf(); setShowMore(false); }}
-                className="flex items-center gap-2 w-full px-3 py-2 text-xs hover:bg-accent transition-colors text-left"
-              >
-                <FileDown className="w-3.5 h-3.5" />
-                导出 HTML
-              </button>
-            </div>
-          )}
-        </div>
+        <DropdownMenu>
+          <Tooltip>
+            <TooltipTrigger>
+              <DropdownMenuTrigger>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="rounded-l-none border-l-0"
+                  type="button"
+                >
+                  <MoreHorizontal className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+            </TooltipTrigger>
+            <TooltipContent>更多</TooltipContent>
+          </Tooltip>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem onClick={onExportPdf}>
+              <FileDown className="h-3.5 w-3.5 mr-2" />
+              导出 HTML
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
 
-      {/* 深色/浅色切换 */}
-      <button
-        onClick={onToggleDark}
-        className="flex items-center justify-center p-2 rounded-md border hover:bg-accent transition-colors"
-        title={dark ? "切换浅色模式" : "切换深色模式"}
-      >
-        {dark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-      </button>
+      {/* 主题切换 */}
+      <DropdownMenu>
+        <Tooltip>
+          <TooltipTrigger>
+            <DropdownMenuTrigger>
+              <Button variant="outline" size="icon" type="button">
+                <Palette className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+          </TooltipTrigger>
+          <TooltipContent>主题</TooltipContent>
+        </Tooltip>
+        <DropdownMenuContent align="end" className="w-40">
+          <DropdownMenuGroup>
+            <DropdownMenuLabel className="text-xs">选择主题</DropdownMenuLabel>
+          </DropdownMenuGroup>
+          <DropdownMenuSeparator />
+          {THEME_PRESETS.map((preset) => (
+            <DropdownMenuItem
+              key={preset.id}
+              onClick={() => onThemeChange(preset)}
+              className="text-xs"
+            >
+              <Check
+                className={cn(
+                  "h-3.5 w-3.5 mr-2",
+                  currentTheme === preset.id ? "opacity-100" : "opacity-0"
+                )}
+              />
+              {preset.name}
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>
   );
 }

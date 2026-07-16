@@ -18,8 +18,7 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "paths": {
-      "@/*": ["./src/*"],
-      "@toast-ui/editor": ["./node_modules/@toast-ui/editor/types/index.d.ts"]
+      "@/*": ["./src/*"]
     },
     "types": ["node"]
   },

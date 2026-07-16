@@ -50,7 +50,8 @@ export function Toc({ containerRef }: TocProps) {
     const container = containerRef.current;
     if (!container) return;
 
-    const scrollEl = container.querySelector(".toastui-editor") || container;
+    // Find the scrollable parent (the preview container)
+    const scrollEl = container.closest(".overflow-y-auto") || container;
 
     const handleScroll = () => {
       const headings = container.querySelectorAll("h1, h2, h3, h4");

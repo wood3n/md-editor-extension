@@ -1,5 +1,13 @@
 import { useState, useRef, useEffect } from "react";
-import { X } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 interface SaveDialogProps {
   open: boolean;
@@ -18,11 +26,6 @@ export function SaveDialog({ open, onClose, onSave }: SaveDialogProps) {
     }
   }, [open]);
 
-  if (!open) return null;
-
-  const now = new Date();
-  const timeStr = now.toLocaleString();
-
   const handleSave = () => {
     onSave(title.trim() || "未命名");
     onClose();
@@ -34,53 +37,32 @@ export function SaveDialog({ open, onClose, onSave }: SaveDialogProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
-      <div
-        className="bg-background border rounded-xl shadow-2xl w-96 p-6"
-        onKeyDown={handleKeyDown}
-      >
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-sm font-semibold">保存文档</h3>
-          <button
-            onClick={onClose}
-            className="p-1 rounded hover:bg-accent transition-colors"
-          >
-            <X className="w-4 h-4" />
-          </button>
+    <Dialog open={open} onOpenChange={(open) => !open && onClose()}>
+      <DialogContent className="sm:max-w-sm" onKeyDown={handleKeyDown}>
+        <DialogHeader>
+          <DialogTitle>保存文档</DialogTitle>
+        </DialogHeader>
+
+        <div>
+          <label className="block text-xs text-muted-foreground mb-2">文档标题</label>
+          <Input
+            ref={inputRef}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="请输入文档标题…"
+            onKeyDown={handleKeyDown}
+          />
         </div>
 
-        <label className="block text-xs text-muted-foreground mb-1.5">
-          文档标题
-        </label>
-        <input
-          ref={inputRef}
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="请输入文档标题…"
-          className="w-full px-3 py-2 text-sm border rounded-md bg-background focus:outline-none focus:ring-2 focus:ring-primary/20"
-          onKeyDown={handleKeyDown}
-        />
-
-        <p className="text-xs text-muted-foreground mt-3">
-          保存时间：{timeStr}
-        </p>
-
-        <div className="flex justify-end gap-2 mt-5">
-          <button
-            onClick={onClose}
-            className="px-4 py-1.5 text-xs rounded-md border hover:bg-accent transition-colors"
-          >
+        <DialogFooter>
+          <Button variant="outline" size="sm" onClick={onClose}>
             取消
-          </button>
-          <button
-            onClick={handleSave}
-            className="px-4 py-1.5 text-xs rounded-md bg-primary text-primary-foreground hover:opacity-90 transition-colors"
-          >
+          </Button>
+          <Button size="sm" onClick={handleSave}>
             保存
-          </button>
-        </div>
-      </div>
-    </div>
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }
