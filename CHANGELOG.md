@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.3.0](https://github.com/wood3n/md-editor-extension/compare/v1.2.6...v1.3.0) (2026-07-18)
+
+### 🚀 新功能
+
+* add extended markdown syntax, admonitions, and 16px base font ([85324a3](https://github.com/wood3n/md-editor-extension/commit/85324a36a65327e6d3d6f459b51ac74e79de5508))
+
+### 📖 文档
+
+* update readme ([6f05d1e](https://github.com/wood3n/md-editor-extension/commit/6f05d1eb758452c84599e053277347e16efb88e8))
+
 ## [1.2.6](https://github.com/wood3n/md-editor-extension/compare/v1.2.5...v1.2.6) (2026-07-16)
 
 ### 💅 Refactors
