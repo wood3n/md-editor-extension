@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.4.0](https://github.com/wood3n/md-editor-extension/compare/v1.3.0...v1.4.0) (2026-07-18)
+
+### 🚀 新功能
+
+* add view mode toggle (split/edit/preview) with Tabs component ([8007825](https://github.com/wood3n/md-editor-extension/commit/8007825519db3d4957bda05ed48f7af0e343d250))
+
 ## [1.3.0](https://github.com/wood3n/md-editor-extension/compare/v1.2.6...v1.3.0) (2026-07-18)
 
 ### 🚀 新功能
