@@ -16,7 +16,6 @@ const DEFAULT_THEME = "github-light";
 
 export default function App() {
   const [markdown, setMarkdown] = useState(DEFAULT_MARKDOWN);
-  const [showToc, setShowToc] = useState(false);
   const [showSidebar, setShowSidebar] = useState(false);
   const [showSaveDialog, setShowSaveDialog] = useState(false);
   const [showRenameDialog, setShowRenameDialog] = useState(false);
@@ -236,8 +235,6 @@ export default function App() {
             <MarkdownEditor
               value={markdown}
               onChange={setMarkdown}
-              showToc={showToc}
-              onToggleToc={() => setShowToc((v) => !v)}
               previewTheme={previewTheme}
               codeTheme={codeTheme}
               editorTheme={editorTheme}

@@ -44,7 +44,7 @@ export function Sidebar({ open, activeDocId, onSelectDoc, onDeleteDoc, refreshKe
       className="w-60 h-full border-r shrink-0 flex flex-col"
       style={{ backgroundColor: "var(--chrome-bg)", borderColor: "var(--chrome-border)" }}
     >
-      <div className="flex items-center px-3 border-b" style={{ height: "45px" }}>
+      <div className="flex items-center px-4 border-b h-12">
         <h3 className="text-base font-semibold text-muted-foreground uppercase tracking-wider">
           文档列表
         </h3>
@@ -64,7 +64,7 @@ export function Sidebar({ open, activeDocId, onSelectDoc, onDeleteDoc, refreshKe
                 onMouseLeave={() => setHoverId(null)}
                 onClick={() => onSelectDoc(doc)}
                 className={cn(
-                  "group flex items-center justify-between px-3 py-2.5 cursor-pointer transition-colors",
+                  "group flex items-center justify-between px-4 py-2.5 cursor-pointer transition-colors",
                   activeDocId === doc.id && "font-medium"
                 )}
                 style={{

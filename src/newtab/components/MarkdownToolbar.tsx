@@ -18,6 +18,9 @@ import {
   Heading6,
   ListTree,
   X,
+  Columns,
+  FileCode,
+  View,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -31,13 +34,18 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/newtab/lib/utils";
 import type { EditorView } from "@codemirror/view";
+
+type ViewMode = "split" | "edit" | "preview";
 
 interface MarkdownToolbarProps {
   cmViewRef: RefObject<EditorView | null>;
   showToc: boolean;
   onToggleToc: () => void;
+  viewMode: ViewMode;
+  onViewModeChange: (mode: ViewMode) => void;
   className?: string;
 }
 
@@ -94,6 +102,8 @@ export function MarkdownToolbar({
   cmViewRef,
   showToc,
   onToggleToc,
+  viewMode,
+  onViewModeChange,
   className,
 }: MarkdownToolbarProps) {
   const getView = () => cmViewRef.current;
@@ -179,7 +189,7 @@ export function MarkdownToolbar({
   return (
     <div
       className={cn(
-        "flex items-center gap-0.5 px-2 py-1.5 border-b shrink-0",
+        "flex items-center gap-0.5 px-3 py-1.5 border-b shrink-0",
         className
       )}
       style={{ backgroundColor: "var(--chrome-bg)", borderColor: "var(--chrome-border)" }}
@@ -312,8 +322,26 @@ export function MarkdownToolbar({
         <TooltipContent side="bottom">代码块</TooltipContent>
       </Tooltip>
 
-      {/* Spacer — push TOC to the right */}
+      {/* Spacer — push view toggle + TOC to the right */}
       <div className="flex-1" />
+
+      {/* View mode toggle */}
+      <Tabs
+        value={viewMode}
+        onValueChange={(v) => onViewModeChange(v as ViewMode)}
+      >
+        <TabsList className="h-8">
+          <TabsTrigger value="split" title="分隔视图" className="border-0 data-active:shadow-sm data-active:ring-1 data-active:ring-border">
+            <Columns  />
+          </TabsTrigger>
+          <TabsTrigger value="edit" title="仅编辑器" className="border-0 data-active:shadow-sm data-active:ring-1 data-active:ring-border">
+            <FileCode />
+          </TabsTrigger>
+          <TabsTrigger value="preview" title="仅预览" className="border-0 data-active:shadow-sm data-active:ring-1 data-active:ring-border">
+            <View />
+          </TabsTrigger>
+        </TabsList>
+      </Tabs>
 
       {/* TOC toggle */}
       <Tooltip>
@@ -321,7 +349,7 @@ export function MarkdownToolbar({
           <Button
             variant="outline"
             size="icon"
-            className="h-8 w-8"
+            className="h-8 w-8 ml-1.5"
             onClick={onToggleToc}
             type="button"
           >

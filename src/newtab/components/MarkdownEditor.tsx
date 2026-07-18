@@ -20,11 +20,11 @@ import { getOrCreateRenderer, renderMarkdown } from "@/newtab/lib/markdown";
 import { cn } from "@/newtab/lib/utils";
 import type MarkdownIt from "markdown-it";
 
+type ViewMode = "split" | "edit" | "preview";
+
 interface MarkdownEditorProps {
   value: string;
   onChange: (value: string) => void;
-  showToc: boolean;
-  onToggleToc: () => void;
   previewTheme: string;
   codeTheme: string;
   editorTheme: string;
@@ -35,8 +35,6 @@ interface MarkdownEditorProps {
 export function MarkdownEditor({
   value,
   onChange,
-  showToc,
-  onToggleToc,
   previewTheme,
   codeTheme,
   editorTheme,
@@ -44,10 +42,21 @@ export function MarkdownEditor({
   className,
 }: MarkdownEditorProps) {
   const [renderedHtml, setRenderedHtml] = useState("");
+  const [showToc, setShowToc] = useState(false);
+  const [viewMode, setViewMode] = useState<ViewMode>(() => {
+    const stored = localStorage.getItem("md-view-mode");
+    if (stored === "edit" || stored === "preview" || stored === "split") return stored;
+    return "split";
+  });
   const cmViewRef = useRef<EditorView | null>(null);
   const editorScrollRef = useRef<HTMLDivElement>(null);
   const previewContainerRef = useRef<HTMLDivElement>(null);
   const syncing = useRef(false);
+
+  // Persist viewMode
+  useEffect(() => {
+    localStorage.setItem("md-view-mode", viewMode);
+  }, [viewMode]);
 
   const mdRef = useRef<MarkdownIt | null>(null);
   const valueRef = useRef(value);
@@ -145,13 +154,18 @@ export function MarkdownEditor({
       <MarkdownToolbar
         cmViewRef={cmViewRef}
         showToc={showToc}
-        onToggleToc={onToggleToc}
+        onToggleToc={() => setShowToc((v) => !v)}
+        viewMode={viewMode}
+        onViewModeChange={setViewMode}
       />
 
       {/* Split panes */}
       <div className="flex-1 flex overflow-hidden">
-        {/* Editor pane (left 50%) */}
-        <div className="w-1/2 border-r flex flex-col min-h-0">
+        {/* Editor pane */}
+        <div className={cn(
+          "border-r flex flex-col min-h-0",
+          viewMode === "edit" ? "w-full" : viewMode === "preview" ? "hidden" : "w-1/2"
+        )}>
           <CodeMirror
             value={value}
             onChange={onChange}
@@ -168,8 +182,11 @@ export function MarkdownEditor({
           />
         </div>
 
-        {/* Preview pane (right 50%) */}
-        <div className="w-1/2 relative">
+        {/* Preview pane */}
+        <div className={cn(
+          "relative",
+          viewMode === "preview" ? "w-full" : viewMode === "edit" ? "hidden" : "w-1/2"
+        )}>
           <MarkdownPreview
             html={renderedHtml}
             previewTheme={previewTheme}
