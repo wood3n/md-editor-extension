@@ -196,7 +196,7 @@ export default function App() {
         {/* Remote URL status bar */}
         {mdUrl && !activeDoc && (
             <div
-              className="flex items-center gap-2 px-4 py-1.5 text-xs border-b"
+              className="flex items-center gap-2 px-4 py-1.5 text-base border-b"
               style={{ backgroundColor: "var(--chrome-bg)", borderColor: "var(--chrome-border)" }}
             >
             {loading ? (

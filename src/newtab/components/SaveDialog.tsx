@@ -44,7 +44,7 @@ export function SaveDialog({ open, onClose, onSave }: SaveDialogProps) {
         </DialogHeader>
 
         <div>
-          <label className="block text-xs text-muted-foreground mb-2">文档标题</label>
+          <label className="block text-base text-muted-foreground mb-2">文档标题</label>
           <Input
             ref={inputRef}
             value={title}

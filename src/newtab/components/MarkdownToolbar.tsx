@@ -84,10 +84,10 @@ function prefixLines(view: EditorView, prefix: string) {
 const HEADING_ITEMS = [
   { level: 1, icon: Heading1, label: "标题 1", cls: "text-lg font-bold" },
   { level: 2, icon: Heading2, label: "标题 2", cls: "text-base font-semibold" },
-  { level: 3, icon: Heading3, label: "标题 3", cls: "text-sm font-semibold" },
-  { level: 4, icon: Heading4, label: "标题 4", cls: "text-sm font-medium" },
-  { level: 5, icon: Heading5, label: "标题 5", cls: "text-xs font-medium" },
-  { level: 6, icon: Heading6, label: "标题 6", cls: "text-xs text-muted-foreground" },
+  { level: 3, icon: Heading3, label: "标题 3", cls: "text-base font-semibold" },
+  { level: 4, icon: Heading4, label: "标题 4", cls: "text-base font-medium" },
+  { level: 5, icon: Heading5, label: "标题 5", cls: "text-base font-medium" },
+  { level: 6, icon: Heading6, label: "标题 6", cls: "text-base text-muted-foreground" },
 ];
 
 export function MarkdownToolbar({

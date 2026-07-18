@@ -73,7 +73,7 @@ export function Toc({ containerRef }: TocProps) {
 
   if (items.length === 0) {
     return (
-      <div className="p-4 text-xs text-muted-foreground">
+      <div className="p-4 text-base text-muted-foreground">
         暂无标题
       </div>
     );
@@ -81,9 +81,6 @@ export function Toc({ containerRef }: TocProps) {
 
   return (
     <nav className="p-3">
-      <h4 className="text-xs font-semibold text-muted-foreground mb-2 uppercase tracking-wider">
-        本页目录
-      </h4>
       <ul className="space-y-0.5">
         {items.map((item) => (
           <li key={item.id}>
@@ -96,7 +93,7 @@ export function Toc({ containerRef }: TocProps) {
                   el.scrollIntoView({ behavior: "smooth", block: "start" });
                 }
               }}
-              className={`block text-xs py-1 px-2 rounded transition-colors hover:bg-accent truncate ${
+              className={`block text-base py-1 px-2 rounded transition-colors hover:bg-accent truncate ${
                 activeId === item.id
                   ? "text-primary font-medium bg-accent"
                   : "text-muted-foreground"

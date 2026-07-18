@@ -74,9 +74,30 @@ importers:
       markdown-it:
         specifier: ^14.3.0
         version: 14.3.0
-      markdown-it-front-matter:
-        specifier: ^0.2.4
-        version: 0.2.4
+      markdown-it-container:
+        specifier: ^4.0.0
+        version: 4.0.0
+      markdown-it-deflist:
+        specifier: ^3.0.1
+        version: 3.0.1
+      markdown-it-emoji:
+        specifier: ^3.0.0
+        version: 3.0.0
+      markdown-it-footnote:
+        specifier: ^4.0.0
+        version: 4.0.0
+      markdown-it-ins:
+        specifier: ^4.0.0
+        version: 4.0.0
+      markdown-it-mark:
+        specifier: ^4.0.0
+        version: 4.0.0
+      markdown-it-sub:
+        specifier: ^2.0.0
+        version: 2.0.0
+      markdown-it-sup:
+        specifier: ^2.0.0
+        version: 2.0.0
       markdown-it-task-lists:
         specifier: ^2.1.1
         version: 2.1.1
@@ -123,6 +144,12 @@ importers:
       '@types/markdown-it':
         specifier: ^14.1.2
         version: 14.1.2
+      '@types/markdown-it-container':
+        specifier: ^4.0.0
+        version: 4.0.0
+      '@types/markdown-it-footnote':
+        specifier: ^3.0.4
+        version: 3.0.4
       '@types/node':
         specifier: ^26.1.1
         version: 26.1.1
@@ -1161,6 +1188,12 @@ packages:
 
   '@types/linkify-it@5.0.0':
     resolution: {integrity: sha512-sVDA58zAw4eWAffKOaQH5/5j3XeayukzDk+ewSsnv3p4yJEZHCCzMDiZM8e0OUrRvmpGZ85jf4yDHkHsgBNr9Q==}
+
+  '@types/markdown-it-container@4.0.0':
+    resolution: {integrity: sha512-GmD8OECLfzPHv8VyvFRzslqdwXoDBJ2H40fxXFjrarbqvJZSB/BJKZXN5e3k7Mx7GQanSNzTYhzeS3H9o0gAOw==}
+
+  '@types/markdown-it-footnote@3.0.4':
+    resolution: {integrity: sha512-XJ6n+v+2u+2gmYLSHcxyoNT/YrgrKvHuDJQlykFjuxCQCr86P2/fx1V6/0lcKxv5cSIlCaJ6sUcNS3zDI7I+LA==}
 
   '@types/markdown-it@14.1.2':
     resolution: {integrity: sha512-promo4eFwuiW+TfGxhi+0x3czqTYJkG8qB17ZUJiVF10Xm7NLVRSLUsfRTU/6h1e24VvRnXCx+hG7li58lkzog==}
@@ -2653,8 +2686,29 @@ packages:
   magic-string@0.30.21:
     resolution: {integrity: sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ==}
 
-  markdown-it-front-matter@0.2.4:
-    resolution: {integrity: sha512-25GUs0yjS2hLl8zAemVndeEzThB1p42yxuDEKbd4JlL3jiz+jsm6e56Ya8B0VREOkNxLYB4TTwaoPJ3ElMmW+w==}
+  markdown-it-container@4.0.0:
+    resolution: {integrity: sha512-HaNccxUH0l7BNGYbFbjmGpf5aLHAMTinqRZQAEQbMr2cdD3z91Q6kIo1oUn1CQndkT03jat6ckrdRYuwwqLlQw==}
+
+  markdown-it-deflist@3.0.1:
+    resolution: {integrity: sha512-pPtXxihDMi9jrwLLQ+Jra/FM20F/FFJWiVjXf0Js6Lwp7LFj+MuK6cUJNMVTRL+n9d/JqF4MEqYZwSMgVodK5g==}
+
+  markdown-it-emoji@3.0.0:
+    resolution: {integrity: sha512-+rUD93bXHubA4arpEZO3q80so0qgoFJEKRkRbjKX8RTdca89v2kfyF+xR3i2sQTwql9tpPZPOQN5B+PunspXRg==}
+
+  markdown-it-footnote@4.0.0:
+    resolution: {integrity: sha512-WYJ7urf+khJYl3DqofQpYfEYkZKbmXmwxQV8c8mO/hGIhgZ1wOe7R4HLFNwqx7TjILbnC98fuyeSsin19JdFcQ==}
+
+  markdown-it-ins@4.0.0:
+    resolution: {integrity: sha512-sWbjK2DprrkINE4oYDhHdCijGT+MIDhEupjSHLXe5UXeVr5qmVxs/nTUVtgi0Oh/qtF+QKV0tNWDhQBEPxiMew==}
+
+  markdown-it-mark@4.0.0:
+    resolution: {integrity: sha512-YLhzaOsU9THO/cal0lUjfMjrqSMPjjyjChYM7oyj4DnyaXEzA8gnW6cVJeyCrCVeyesrY2PlEdUYJSPFYL4Nkg==}
+
+  markdown-it-sub@2.0.0:
+    resolution: {integrity: sha512-iCBKgwCkfQBRg2vApy9vx1C1Tu6D8XYo8NvevI3OlwzBRmiMtsJ2sXupBgEA7PPxiDwNni3qIUkhZ6j5wofDUA==}
+
+  markdown-it-sup@2.0.0:
+    resolution: {integrity: sha512-5VgmdKlkBd8sgXuoDoxMpiU+BiEt3I49GItBzzw7Mxq9CxvnhE/k09HFli09zgfFDRixDQDfDxi0mgBCXtaTvA==}
 
   markdown-it-task-lists@2.1.1:
     resolution: {integrity: sha512-TxFAc76Jnhb2OUu+n3yz9RMu4CwGfaT788br6HhEDlvWfdeJcLUsxk1Hgw2yJio0OXsxv7pyIPmvECY7bMbluA==}
@@ -4849,6 +4903,14 @@ snapshots:
 
   '@types/linkify-it@5.0.0': {}
 
+  '@types/markdown-it-container@4.0.0':
+    dependencies:
+      '@types/markdown-it': 14.1.2
+
+  '@types/markdown-it-footnote@3.0.4':
+    dependencies:
+      '@types/markdown-it': 14.1.2
+
   '@types/markdown-it@14.1.2':
     dependencies:
       '@types/linkify-it': 5.0.0
@@ -6255,7 +6317,21 @@ snapshots:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  markdown-it-front-matter@0.2.4: {}
+  markdown-it-container@4.0.0: {}
+
+  markdown-it-deflist@3.0.1: {}
+
+  markdown-it-emoji@3.0.0: {}
+
+  markdown-it-footnote@4.0.0: {}
+
+  markdown-it-ins@4.0.0: {}
+
+  markdown-it-mark@4.0.0: {}
+
+  markdown-it-sub@2.0.0: {}
+
+  markdown-it-sup@2.0.0: {}
 
   markdown-it-task-lists@2.1.1: {}
 

@@ -88,9 +88,9 @@ export function Toolbar({
       {/* 文档标题和日期 */}
       {docTitle && (
         <div className="group flex items-center gap-1 ml-1 min-w-0">
-          <span className="text-sm font-medium truncate">{docTitle}</span>
+          <span className="text-base font-medium truncate">{docTitle}</span>
           {docTime && (
-            <span className="text-[10px] text-muted-foreground whitespace-nowrap">
+            <span className="text-sm text-muted-foreground whitespace-nowrap">
               · {docTime}
             </span>
           )}
@@ -162,7 +162,7 @@ export function Toolbar({
             <TooltipContent>更多</TooltipContent>
           </Tooltip>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={onExportPdf}>
+            <DropdownMenuItem onClick={onExportPdf} className="text-sm">
               <FileDown className="h-3.5 w-3.5 mr-2" />
               导出 HTML
             </DropdownMenuItem>
@@ -184,14 +184,13 @@ export function Toolbar({
         </Tooltip>
         <DropdownMenuContent align="end" className="w-40">
           <DropdownMenuGroup>
-            <DropdownMenuLabel className="text-xs">选择主题</DropdownMenuLabel>
+            <DropdownMenuLabel>选择主题</DropdownMenuLabel>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           {THEME_PRESETS.map((preset) => (
             <DropdownMenuItem
               key={preset.id}
               onClick={() => onThemeChange(preset)}
-              className="text-xs"
             >
               <Check
                 className={cn(

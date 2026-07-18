@@ -45,14 +45,14 @@ export function Sidebar({ open, activeDocId, onSelectDoc, onDeleteDoc, refreshKe
       style={{ backgroundColor: "var(--chrome-bg)", borderColor: "var(--chrome-border)" }}
     >
       <div className="flex items-center px-3 border-b" style={{ height: "45px" }}>
-        <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+        <h3 className="text-base font-semibold text-muted-foreground uppercase tracking-wider">
           文档列表
         </h3>
       </div>
 
       <div className="flex-1 overflow-auto">
         {docs.length === 0 ? (
-          <p className="px-4 py-6 text-xs text-muted-foreground text-center">
+          <p className="px-4 py-6 text-base text-muted-foreground text-center">
             暂无保存的文档
           </p>
         ) : (
@@ -72,8 +72,8 @@ export function Sidebar({ open, activeDocId, onSelectDoc, onDeleteDoc, refreshKe
                 }}
               >
                 <div className="min-w-0 flex-1">
-                  <p className="text-xs font-medium truncate">{doc.title}</p>
-                  <p className="text-[10px] text-muted-foreground mt-0.5">
+                  <p className="text-base font-medium truncate">{doc.title}</p>
+                  <p className="text-sm text-muted-foreground mt-0.5">
                     {formatDate(doc.updatedAt)}
                   </p>
                 </div>

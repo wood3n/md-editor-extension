@@ -36,6 +36,8 @@
 - **Markdown + 预览分屏**：左侧 CodeMirror 6 编辑器（支持语法高亮和自动补全），右侧 markdown-it + shiki 实时渲染
 - **统一主题系统**：12 套预设主题（GitHub Light/Dark、One Dark、Tailwind、Monokai、Dracula、Nord、Solarized 等），一键切换编辑器、预览区和代码高亮
 - **Markdown 语法工具栏**：标题、加粗、斜体、下划线、删除线、引用、任务列表、表格、图片、链接、代码块等快捷插入按钮
+- **扩展语法**：下标、上标、高亮、插入文本、表情符号、脚注、定义列表、Front Matter
+- **提示框 (Admonitions)**：`:::note` / `:::tip` / `:::info` / `:::warning` / `:::danger` 五种语法高亮提示框
 - **代码高亮**：基于 shiki，支持行号显示
 - **远程 Markdown 加载**：直接在浏览器中打开 `.md` 链接，扩展自动读取页面内容并加载到编辑器
 - **智能缓存**：双层缓存（内存 + `chrome.storage.local`）
@@ -45,6 +47,83 @@
 - **目录导航**：自动从文档标题生成目录，悬浮在编辑器右上角
 - **滚动跟随**：编辑区和预览区双向滚动同步
 - **快捷键**：`⌘S` / `Ctrl+S` 快速保存
+
+### 📝 扩展 Markdown 语法
+
+除了标准 Markdown 语法外，编辑器支持以下扩展语法：
+
+| 语法     | 写法                 | 效果                |
+| -------- | -------------------- | ------------------- |
+| 下标     | `H~2~O`              | H₂O                 |
+| 上标     | `x^2^`               | x²                  |
+| 插入文本 | `++inserted++`       | <ins>inserted</ins> |
+| 高亮标记 | `==marked==`         | <mark>marked</mark> |
+| 表情符号 | `:smile:` `:rocket:` | 😄 🚀               |
+
+**脚注**
+
+```markdown
+这是一段带有脚注的文本[^1]。
+
+[^1]: 这是脚注内容。
+```
+
+**定义列表**
+
+```markdown
+术语
+: 定义内容
+```
+
+**Front Matter**
+
+在文档开头使用 `---` 包裹 YAML 元数据：
+
+```markdown
+---
+title: 我的文档
+author: oxygen
+date: 2024-01-01
+---
+```
+
+### 💡 提示框 (Admonitions)
+
+使用 `:::` 语法创建高亮提示框，支持 5 种类型：
+
+```markdown
+:::note
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+
+:::tip
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+
+:::info
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+
+:::warning
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+
+:::danger
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+```
+
+<img src="screenshots/capture5.jpg" alt="Admonitions" width="600">
 
 ### 🎨 一键主题切换
 
@@ -116,7 +195,7 @@ pnpm build  # 生产构建
 - **运行环境**：Chrome 扩展（Manifest V3）
 - **前端框架**：React 18 + TypeScript
 - **编辑器**：CodeMirror 6（`@codemirror/lang-markdown`）
-- **Markdown 渲染**：markdown-it + `@shikijs/markdown-it`
+- **Markdown 渲染**：markdown-it + 12 个插件（shiki 代码高亮、sub/sup/ins/mark 扩展语法、脚注、定义列表、表情符号、任务列表、提示框容器等）
 - **代码高亮**：shiki（纯 JS 引擎，CSP 安全）
 - **UI 组件**：shadcn/ui（基于 base-ui）
 - **图表**：Mermaid

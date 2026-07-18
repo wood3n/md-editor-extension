@@ -124,6 +124,7 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-size: 16px;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
       "Helvetica Neue", Arial, sans-serif;
   }
@@ -142,6 +143,7 @@
 
 /* Base markdown preview styles */
 .md-theme {
+  font-size: 16px;
   line-height: 1.75;
   color: var(--foreground);
   word-wrap: break-word;
@@ -157,6 +159,10 @@
 .md-theme a:hover { text-decoration: underline; }
 .md-theme blockquote { margin: 0.6em 0; padding: 0.4em 1em; border-left: 0.25em solid var(--border); color: var(--muted-foreground); }
 .md-theme ul, .md-theme ol { padding-left: 2em; margin: 0.4em 0; }
+.md-theme ul { list-style-type: disc; }
+.md-theme ol { list-style-type: decimal; }
+.md-theme ul ul { list-style-type: circle; }
+.md-theme ul ul ul { list-style-type: square; }
 .md-theme li { margin: 0.2em 0; }
 .md-theme table { border-collapse: collapse; width: 100%; margin: 0.6em 0; font-size: 0.9em; }
 .md-theme th, .md-theme td { border: 1px solid var(--border); padding: 6px 13px; text-align: left; }
@@ -165,6 +171,7 @@
 .md-theme hr { border: none; border-top: 1px solid var(--border); margin: 1em 0; }
 .md-theme img { max-width: 100%; }
 .md-theme input[type="checkbox"] { margin-right: 0.4em; }
+/* Fenced code blocks (Shiki highlighted) */
 .md-theme .shiki {
   border-radius: 0.375rem;
   margin: 0.6em 0;
@@ -195,8 +202,97 @@
   user-select: none;
 }
 .md-theme pre code { background: none; padding: 0; font-size: inherit; }
+/* Indented code blocks (bare <pre>, no syntax highlighting) */
+.md-theme pre:not(.shiki) {
+  border-radius: 0.375rem;
+  margin: 0.6em 0;
+  padding: 1em;
+  overflow-x: auto;
+  font-size: 0.875em;
+  line-height: 1.6;
+  border: 1px solid var(--md-border, var(--border));
+  background-color: var(--md-muted, #f6f8fa);
+}
 .md-theme :not(pre) > code { background: var(--muted); padding: 0.15em 0.4em; border-radius: 0.25rem; font-size: 0.875em; }
 .md-theme .front-matter { background: var(--muted); border-radius: 0.375rem; padding: 0.8em 1em; margin: 0.5em 0; font-size: 0.85em; font-family: monospace; white-space: pre-wrap; }
+
+/* Admonitions */
+.md-theme .admonition {
+  --admonition-accent: var(--muted-foreground);
+  --admonition-bg: var(--muted);
+  --admonition-heading-bg: transparent;
+  border-left: 4px solid var(--admonition-accent);
+  border-radius: 12px;
+  margin: 1em 0;
+  background: var(--admonition-bg);
+  overflow: hidden;
+}
+.md-theme .admonition-heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 24px 0;
+  font-weight: 600;
+  font-size: 0.8em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--admonition-accent);
+}
+.md-theme .admonition-heading svg {
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+.md-theme .admonition-body {
+  padding: 10px 24px 20px;
+  color: inherit;
+}
+.md-theme .admonition-body > :first-child { margin-top: 0; }
+.md-theme .admonition-body > :last-child { margin-bottom: 0; }
+
+/* Variant accent colors — shared across heading icon, border, links, inline-code */
+.md-theme .admonition-note    { --admonition-accent: #4493f8; --admonition-bg: #0d1117; --admonition-heading-bg: transparent; }
+.md-theme .admonition-tip     { --admonition-accent: #3fb950; --admonition-bg: #0d1117; }
+.md-theme .admonition-info    { --admonition-accent: #58a6ff; --admonition-bg: #0d1117; }
+.md-theme .admonition-warning { --admonition-accent: #d29922; --admonition-bg: #0d1117; }
+.md-theme .admonition-danger  { --admonition-accent: #f85149; --admonition-bg: #0d1117; }
+
+/* Links tinted to variant */
+.md-theme .admonition a { color: var(--admonition-accent); }
+.md-theme .admonition a:hover { text-decoration: underline; }
+
+/* Inline code as rounded pill */
+.md-theme .admonition :not(pre) > code {
+  background: color-mix(in srgb, var(--admonition-accent) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--admonition-accent) 25%, transparent);
+  color: var(--admonition-accent);
+  padding: 0.15em 0.45em;
+  border-radius: 0.375rem;
+  font-size: 0.875em;
+}
+
+/* Dark-theme overrides for light preview themes */
+.md-theme-github-light .admonition,
+.md-theme-tailwind .admonition {
+  --admonition-bg: #f6f8fa;
+}
+.md-theme-github-light .admonition-note    { --admonition-accent: #0969da; }
+.md-theme-github-light .admonition-tip     { --admonition-accent: #1a7f37; }
+.md-theme-github-light .admonition-info    { --admonition-accent: #0969da; }
+.md-theme-github-light .admonition-warning { --admonition-accent: #9a6700; }
+.md-theme-github-light .admonition-danger  { --admonition-accent: #cf222e; }
+/* Light-theme inline code in admonitions */
+.md-theme-github-light .admonition :not(pre) > code,
+.md-theme-tailwind .admonition :not(pre) > code {
+  background: color-mix(in srgb, var(--admonition-accent) 10%, transparent);
+  border-color: color-mix(in srgb, var(--admonition-accent) 30%, transparent);
+}
+
+/* Footnotes */
+.md-theme .footnotes { margin-top: 2em; border-top: 1px solid var(--border); padding-top: 0.5em; font-size: 0.875em; }
+.md-theme .footnotes ol { padding-left: 1.5em; }
+.md-theme .footnotes li { margin: 0.3em 0; }
+.md-theme a.footnote-ref { font-size: 0.75em; vertical-align: super; text-decoration: none; }
+.md-theme a.footnote-backref { text-decoration: none; margin-left: 0.3em; }
 
 /* GitHub Light */
 .md-theme-github-light {
@@ -287,6 +383,7 @@
 .cm-editor {
   height: 100%;
   min-height: 0;
+  font-size: 16px !important;
   background-color: var(--chrome-bg, var(--background)) !important;
 }
 .cm-editor.cm-focused {
