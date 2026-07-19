@@ -44,8 +44,8 @@ export function Sidebar({ open, activeDocId, onSelectDoc, onDeleteDoc, refreshKe
       className="w-60 h-full border-r shrink-0 flex flex-col"
       style={{ backgroundColor: "var(--chrome-bg)", borderColor: "var(--chrome-border)" }}
     >
-      <div className="flex items-center px-4 border-b h-12">
-        <h3 className="text-base font-semibold text-muted-foreground uppercase tracking-wider">
+      <div className="flex items-center px-4 border-b h-[45px]">
+        <h3 className="text-base text-muted-foreground tracking-wider">
           文档列表
         </h3>
       </div>
