@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.4.1](https://github.com/wood3n/md-editor-extension/compare/v1.4.0...v1.4.1) (2026-07-19)
+
+### 🩹 修复问题
+
+* fix sidebar title height ([03d4835](https://github.com/wood3n/md-editor-extension/commit/03d4835ad5b20e13e0adde30c593783d23600278))
+
 ## [1.4.0](https://github.com/wood3n/md-editor-extension/compare/v1.3.0...v1.4.0) (2026-07-18)
 
 ### 🚀 新功能
