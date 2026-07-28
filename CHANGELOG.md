@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.5.1](https://github.com/wood3n/md-editor-extension/compare/v1.5.0...v1.5.1) (2026-07-28)
+
+### 🩹 修复问题
+
+* rename App.tsx to app.tsx (case-sensitive filesystem) ([a160d83](https://github.com/wood3n/md-editor-extension/commit/a160d83b835580df59f1da545463c0c8e732c6c8))
+
 ## 1.5.0 (2026-07-28)
 
 ### 🚀 新功能
