@@ -50,7 +50,8 @@ export function MarkdownToolbar({ editorRef, previewRef }: MarkdownToolbarProps)
       lineNumber: newLine,
       column: prefix.length + 1,
     })
-    editor.focus()
+    // DropdownMenu 关闭后会抢走焦点，需要延迟到下一个 tick 确保生效
+    requestAnimationFrame(() => editor.focus())
   }, [])
 
   const handleBold = useCallback(() => {

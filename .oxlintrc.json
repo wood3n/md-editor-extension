@@ -34,7 +34,8 @@
           "imports": "fix"
         }
       }
-    ]
+    ],
+    "capitalized-comments": "off"
   },
   "env": {
     "builtin": true,

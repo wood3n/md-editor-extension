@@ -3,3 +3,6 @@ packages: []
 allowBuilds:
   esbuild: true
   msw: false
+
+patchedDependencies:
+  '@shikijs/monaco@4.3.1': patches/@shikijs__monaco@4.3.1.patch

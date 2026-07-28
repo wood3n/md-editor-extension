@@ -47,13 +47,11 @@ export function App() {
       monacoRef.current = monacoInstance
 
       monacoInstance.languages.register({ id: "markdown" })
-
       if (highlighter && !shikiRegistered) {
         shikiRegistered = true
         shikiToMonaco(highlighter, monacoInstance)
       }
 
-      // setTheme 必须在 shikiToMonaco 之后，否则 Monaco 还不知道这个主题
       monacoInstance.editor.setTheme(theme)
 
       // Sync Monaco scroll -> Preview scroll
@@ -67,9 +65,7 @@ export function App() {
         const editorInfo = editor.getLayoutInfo()
         const editorScrollable = editor.getScrollHeight() - editorInfo.height
         const editorRatio =
-          editorScrollable > 0
-            ? editor.getScrollTop() / editorScrollable
-            : 0
+          editorScrollable > 0 ? editor.getScrollTop() / editorScrollable : 0
         const previewScrollable =
           previewEl.scrollHeight - previewEl.clientHeight
         if (previewScrollable > 0) {
