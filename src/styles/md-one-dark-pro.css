@@ -1,0 +1,43 @@
+[data-theme="one-dark-pro"] {
+  --md-color: #abb2bf;
+
+  --md-link-color: #61afef;
+
+  --md-heading-color: #e5c07b;
+  --md-heading-border-color: #3e4452;
+  --md-h6-color: #7a8291;
+
+  --md-code-color: #e06c75;
+  --md-code-bg: #3a3f4b;
+
+
+  --md-blockquote-color: #7a8291;
+  --md-blockquote-border: #3e4451;
+
+  --md-hr-color: #3e4451;
+
+  --md-table-border: #3e4451;
+  --md-table-tr-bg: #282c34;
+  --md-table-tr-alt-bg: #21252b;
+
+  --md-kbd-color: #abb2bf;
+  --md-kbd-bg: #3a3f4b;
+  --md-kbd-border: #3e4451;
+
+  --md-mark-bg: #3d4353;
+  --md-mark-color: #e5c07b;
+
+  --md-footnotes-color: #7a8291;
+  --md-footnotes-border: #3e4451;
+
+  --md-alert-note-border: #61afef;
+  --md-alert-note-color: #61afef;
+  --md-alert-important-border: #c678dd;
+  --md-alert-important-color: #c678dd;
+  --md-alert-warning-border: #e5c07b;
+  --md-alert-warning-color: #e5c07b;
+  --md-alert-tip-border: #98c379;
+  --md-alert-tip-color: #98c379;
+  --md-alert-caution-border: #e06c75;
+  --md-alert-caution-color: #e06c75;
+}

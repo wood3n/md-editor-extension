@@ -1,0 +1,39 @@
+{
+  "$schema": "https://unpkg.com/release-it@20/schema/release-it.json",
+  "plugins": {
+    "@release-it/conventional-changelog": {
+      "infile": "CHANGELOG.md",
+      "header": "# Changelog",
+      "preset": {
+        "name": "conventionalcommits",
+        "types": [
+          { "type": "feat", "section": "🚀 新功能" },
+          { "type": "perf", "section": "🔥 功能优化" },
+          { "type": "fix", "section": "🩹 修复问题" },
+          { "type": "style", "section": "🎨 UI 调整" },
+          { "type": "refactor", "section": "💅 Refactors" },
+          { "type": "docs", "section": "📖 文档" },
+          { "type": "build", "section": "📦 Build" },
+          { "type": "types", "section": "🌊 Types" },
+          { "type": "chore", "section": "🏡 Chore" },
+          { "type": "examples", "section": "🏀 Examples" },
+          { "type": "test", "section": "✅ Tests" },
+          { "type": "ci", "section": "🤖 CI" }
+        ]
+      }
+    }
+  },
+  "git": {
+    "commitMessage": "chore(release): v${version}",
+    "tagName": "v${version}",
+    "tagAnnotation": "v${version}",
+    "push": true,
+    "requireCleanWorkingDir": true
+  },
+  "npm": {
+    "publish": false
+  },
+  "github": {
+    "release": false
+  }
+}

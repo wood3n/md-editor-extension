@@ -1,0 +1,51 @@
+[data-theme="dracula"] {
+  --md-color: #f8f8f2;
+
+  --md-link-color: #8be9fd;
+
+  --md-heading-color: #bd93f9;
+  --md-heading-border-color: #6272a4;
+  --md-h6-color: #6272a4;
+
+  --md-code-color: #50fa7b;
+  --md-code-bg: #44475a;
+
+
+  --md-blockquote-color: #6272a4;
+  --md-blockquote-border: #6272a4;
+
+  --md-hr-color: #6272a4;
+
+  --md-table-border: #6272a4;
+  --md-table-tr-bg: #282a36;
+  --md-table-tr-alt-bg: #44475a;
+
+  --md-kbd-color: #f8f8f2;
+  --md-kbd-bg: #44475a;
+  --md-kbd-border: #6272a4;
+
+  --md-mark-bg: #f1fa8c;
+  --md-mark-color: #282a36;
+
+  --md-footnotes-color: #6272a4;
+  --md-footnotes-border: #6272a4;
+
+  --md-alert-note-border: #8be9fd;
+  --md-alert-note-color: #8be9fd;
+  --md-alert-important-border: #bd93f9;
+  --md-alert-important-color: #bd93f9;
+  --md-alert-warning-border: #ffb86c;
+  --md-alert-warning-color: #ffb86c;
+  --md-alert-tip-border: #50fa7b;
+  --md-alert-tip-color: #50fa7b;
+  --md-alert-caution-border: #ff5555;
+ --md-alert-caution-color: #ff5555;
+
+  /* ── Typography / spacing (Dracula original overrides) ── */
+  --md-line-height: 1.6;
+  --md-code-font-size: 0.9em;
+  --md-code-border-radius: 3px;
+  --md-pre-font-size: 0.9em;
+  --md-table-width: 100%;
+  --md-table-cell-padding: 0.5em 1em;
+}

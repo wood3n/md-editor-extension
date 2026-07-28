@@ -1,0 +1,43 @@
+[data-theme="catppuccin-latte"] {
+  --md-color: #4c4f69;
+
+  --md-link-color: #1e66f5;
+
+  --md-heading-color: #4c4f69;
+  --md-heading-border-color: #ccd0da;
+  --md-h6-color: #9ca0b0;
+
+  --md-code-color: #4c4f69;
+  --md-code-bg: #e6e9ef;
+
+
+  --md-blockquote-color: #9ca0b0;
+  --md-blockquote-border: #bcc0cc;
+
+  --md-hr-color: #ccd0da;
+
+  --md-table-border: #bcc0cc;
+  --md-table-tr-bg: #eff1f5;
+  --md-table-tr-alt-bg: #e6e9ef;
+
+  --md-kbd-color: #4c4f69;
+  --md-kbd-bg: #e6e9ef;
+  --md-kbd-border: #bcc0cc;
+
+  --md-mark-bg: #ccd0da;
+  --md-mark-color: #4c4f69;
+
+  --md-footnotes-color: #9ca0b0;
+  --md-footnotes-border: #ccd0da;
+
+  --md-alert-note-border: #1e66f5;
+  --md-alert-note-color: #1e66f5;
+  --md-alert-important-border: #8839ef;
+  --md-alert-important-color: #8839ef;
+  --md-alert-warning-border: #df8e1d;
+  --md-alert-warning-color: #df8e1d;
+  --md-alert-tip-border: #40a02b;
+  --md-alert-tip-color: #40a02b;
+  --md-alert-caution-border: #d20f39;
+  --md-alert-caution-color: #d20f39;
+}

@@ -1,0 +1,43 @@
+[data-theme="monokai"] {
+  --md-color: #f8f8f2;
+
+  --md-link-color: #66d9ef;
+
+  --md-heading-color: #f92672;
+  --md-heading-border-color: #3e3d32;
+  --md-h6-color: #75715e;
+
+  --md-code-color: #a6e22e;
+  --md-code-bg: #3e3d32;
+
+
+  --md-blockquote-color: #75715e;
+  --md-blockquote-border: #75715e;
+
+  --md-hr-color: #3e3d32;
+
+  --md-table-border: #3e3d32;
+  --md-table-tr-bg: #272822;
+  --md-table-tr-alt-bg: #1b1c17;
+
+  --md-kbd-color: #f8f8f2;
+  --md-kbd-bg: #3e3d32;
+  --md-kbd-border: #3e3d32;
+
+  --md-mark-bg: #3e3d32;
+  --md-mark-color: #e6db74;
+
+  --md-footnotes-color: #75715e;
+  --md-footnotes-border: #3e3d32;
+
+  --md-alert-note-border: #66d9ef;
+  --md-alert-note-color: #66d9ef;
+  --md-alert-important-border: #ae81ff;
+  --md-alert-important-color: #ae81ff;
+  --md-alert-warning-border: #e6db74;
+  --md-alert-warning-color: #e6db74;
+  --md-alert-tip-border: #a6e22e;
+  --md-alert-tip-color: #a6e22e;
+  --md-alert-caution-border: #f92672;
+  --md-alert-caution-color: #f92672;
+}

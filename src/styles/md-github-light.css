@@ -1,0 +1,55 @@
+[data-theme="github-light"] {
+  /* Text & Background */
+  --md-color: #1f2328;
+
+  /* Links */
+  --md-link-color: #0969da;
+
+  /* Headings */
+  --md-heading-color: #1f2328;
+  --md-heading-border-color: #d1d9e0b3;
+  --md-h6-color: #59636e;
+
+  /* Inline code */
+  --md-code-color: #1f2328;
+  --md-code-bg: #818b981f;
+
+  /* Code block */
+
+  /* Blockquote */
+  --md-blockquote-color: #59636e;
+  --md-blockquote-border: #d1d9e0;
+
+  /* Horizontal rule */
+  --md-hr-color: #d1d9e0;
+
+  /* Tables */
+  --md-table-border: #d1d9e0;
+  --md-table-tr-bg: #ffffff;
+  --md-table-tr-alt-bg: #f6f8fa;
+
+  /* Keyboard */
+  --md-kbd-color: #1f2328;
+  --md-kbd-bg: #f6f8fa;
+  --md-kbd-border: #d1d9e0b3;
+
+  /* Mark/highlight */
+  --md-mark-bg: #fff8c5;
+  --md-mark-color: #1f2328;
+
+  /* Footnotes */
+  --md-footnotes-color: #59636e;
+  --md-footnotes-border: #d1d9e0;
+
+  /* Alert borders & titles */
+  --md-alert-note-border: #0969da;
+  --md-alert-note-color: #0969da;
+  --md-alert-important-border: #8250df;
+  --md-alert-important-color: #8250df;
+  --md-alert-warning-border: #9a6700;
+  --md-alert-warning-color: #9a6700;
+  --md-alert-tip-border: #1a7f37;
+  --md-alert-tip-color: #1a7f37;
+  --md-alert-caution-border: #cf222e;
+  --md-alert-caution-color: #d1242f;
+}

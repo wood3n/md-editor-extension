@@ -1,0 +1,43 @@
+[data-theme="catppuccin-mocha"] {
+  --md-color: #cdd6f4;
+
+  --md-link-color: #89b4fa;
+
+  --md-heading-color: #cdd6f4;
+  --md-heading-border-color: #313244;
+  --md-h6-color: #6c7086;
+
+  --md-code-color: #cdd6f4;
+  --md-code-bg: #181825;
+
+
+  --md-blockquote-color: #6c7086;
+  --md-blockquote-border: #45475a;
+
+  --md-hr-color: #313244;
+
+  --md-table-border: #313244;
+  --md-table-tr-bg: #1e1e2e;
+  --md-table-tr-alt-bg: #181825;
+
+  --md-kbd-color: #cdd6f4;
+  --md-kbd-bg: #313244;
+  --md-kbd-border: #45475a;
+
+  --md-mark-bg: #313244;
+  --md-mark-color: #f9e2af;
+
+  --md-footnotes-color: #6c7086;
+  --md-footnotes-border: #313244;
+
+  --md-alert-note-border: #89b4fa;
+  --md-alert-note-color: #89b4fa;
+  --md-alert-important-border: #cba6f7;
+  --md-alert-important-color: #cba6f7;
+  --md-alert-warning-border: #f9e2af;
+  --md-alert-warning-color: #f9e2af;
+  --md-alert-tip-border: #a6e3a1;
+  --md-alert-tip-color: #a6e3a1;
+  --md-alert-caution-border: #f38ba8;
+  --md-alert-caution-color: #f38ba8;
+}

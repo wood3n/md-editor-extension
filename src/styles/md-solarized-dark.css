@@ -1,0 +1,49 @@
+[data-theme="solarized-dark"] {
+  --md-color: #839496;
+
+  --md-link-color: #268bd2;
+
+  --md-heading-color: #93a1a1;
+  --md-heading-border-color: #073642;
+  --md-h6-color: #586e75;
+
+  --md-code-color: #839496;
+  --md-code-bg: #073642;
+
+
+  --md-blockquote-color: #586e75;
+  --md-blockquote-border: #586e75;
+
+  --md-hr-color: #073642;
+
+  --md-table-border: #073642;
+  --md-table-tr-bg: #002b36;
+  --md-table-tr-alt-bg: #073642;
+
+  --md-kbd-color: #839496;
+  --md-kbd-bg: #073642;
+  --md-kbd-border: #073642;
+
+  --md-mark-bg: #073642;
+  --md-mark-color: #93a1a1;
+
+  --md-footnotes-color: #586e75;
+  --md-footnotes-border: #073642;
+
+  --md-alert-note-border: #268bd2;
+  --md-alert-note-color: #268bd2;
+  --md-alert-important-border: #6c71c4;
+  --md-alert-important-color: #6c71c4;
+  --md-alert-warning-border: #cb4b16;
+  --md-alert-warning-color: #cb4b16;
+  --md-alert-tip-border: #859900;
+  --md-alert-tip-color: #859900;
+  --md-alert-caution-border: #dc322f;
+  --md-alert-caution-color: #dc322f;
+
+  /* ── Typography / spacing (Solarized original overrides) ── */
+  --md-heading-font-weight: 700;
+  --md-code-padding: 2px;
+  --md-pre-border: 1pt solid #586e75;
+  --md-pre-box-shadow: 5pt 5pt 8pt #073642;
+}

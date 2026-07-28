@@ -4,7 +4,7 @@
     "target": "es2023",
     "lib": ["ES2023", "DOM"],
     "module": "esnext",
-    "types": ["vite/client"],
+    "types": ["@rsbuild/core/types"],
     "skipLibCheck": true,
 
     /* Bundler mode */
@@ -13,7 +13,7 @@
     "verbatimModuleSyntax": true,
     "moduleDetection": "force",
     "noEmit": true,
-    "jsx": "react-jsx",
+    "jsx": "preserve",
 
     /* Linting */
     "strict": true,
@@ -22,7 +22,16 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "monaco-editor/editor/editor.api": [
+        "./node_modules/monaco-editor/esm/vs/editor/editor.api"
+      ],
+      "monaco-editor/languages/definitions/markdown/register.js": [
+        "./node_modules/monaco-editor/esm/vs/languages/definitions/markdown/register"
+      ],
+      "monaco-editor/editor/editor.worker": [
+        "./node_modules/monaco-editor/esm/vs/editor/editor.worker.js"
+      ]
     }
   },
   "include": ["src"]

@@ -1,0 +1,19 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "ignorePatterns": ["dist", "node_modules"],
+  "endOfLine": "lf",
+  "semi": false,
+  "singleQuote": false,
+  "tabWidth": 2,
+  "trailingComma": "all",
+  "printWidth": 80,
+  "sortImports": true,
+  "sortTailwindcss": {
+    "stylesheet": "src/index.css",
+    "preserveWhitespace": true,
+    "functions": ["clsx", "cn", "cva"]
+  },
+  "sortPackageJson": {
+    "sortScripts": true
+  }
+}

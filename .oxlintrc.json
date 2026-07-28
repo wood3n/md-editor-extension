@@ -1,0 +1,43 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "unicorn", "oxc", "react"],
+  "ignorePatterns": ["dist", "node_modules", "src/components/ui/**"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn",
+    "style": "warn"
+  },
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-max-depth": "off",
+    "react/hook-use-state": "off",
+    "react/function-component-definition": "off",
+    "react/exhaustive-deps": "warn",
+    "react/jsx-handler-names": "off",
+    "sort-imports": "off",
+    "sort-keys": "off",
+    "func-style": "off",
+    "unicorn/prefer-global-this": "off",
+    "prefer-named-capture-group": "off",
+    "max-statements": "off",
+    "prefer-destructuring": "off",
+    "no-ternary": "off",
+    "unicorn/no-null": "off",
+    "id-length": "off",
+    "no-magic-numbers": "off",
+    "no-unused-vars": [
+      "warn",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "fix": {
+          "imports": "fix"
+        }
+      }
+    ]
+  },
+  "env": {
+    "builtin": true,
+    "browser": true
+  }
+}

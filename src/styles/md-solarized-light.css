@@ -1,0 +1,49 @@
+[data-theme="solarized-light"] {
+  --md-color: #586e75;
+
+  --md-link-color: #268bd2;
+
+  --md-heading-color: #073642;
+  --md-heading-border-color: #eee8d5;
+  --md-h6-color: #93a1a1;
+
+  --md-code-color: #586e75;
+  --md-code-bg: #eee8d5;
+
+
+  --md-blockquote-color: #93a1a1;
+  --md-blockquote-border: #93a1a1;
+
+  --md-hr-color: #eee8d5;
+
+  --md-table-border: #d5ccba;
+  --md-table-tr-bg: #fdf6e3;
+  --md-table-tr-alt-bg: #eee8d5;
+
+  --md-kbd-color: #586e75;
+  --md-kbd-bg: #eee8d5;
+  --md-kbd-border: #d5ccba;
+
+  --md-mark-bg: #eee8d5;
+  --md-mark-color: #073642;
+
+  --md-footnotes-color: #93a1a1;
+  --md-footnotes-border: #eee8d5;
+
+  --md-alert-note-border: #268bd2;
+  --md-alert-note-color: #268bd2;
+  --md-alert-important-border: #6c71c4;
+  --md-alert-important-color: #6c71c4;
+  --md-alert-warning-border: #cb4b16;
+  --md-alert-warning-color: #cb4b16;
+  --md-alert-tip-border: #859900;
+  --md-alert-tip-color: #859900;
+  --md-alert-caution-border: #dc322f;
+  --md-alert-caution-color: #dc322f;
+
+  /* ── Typography / spacing (Solarized original overrides) ── */
+  --md-heading-font-weight: 700;
+  --md-code-padding: 2px;
+  --md-pre-border: 1pt solid #93a1a1;
+  --md-pre-box-shadow: 5pt 5pt 8pt #eee8d5;
+}

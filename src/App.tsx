@@ -1,20 +1,144 @@
-import { Button } from "@/components/ui/button"
+import { loader, type OnMount } from "@monaco-editor/react"
+import { shikiToMonaco } from "@shikijs/monaco"
+import * as monaco from "monaco-editor"
+import { useCallback, useEffect, useRef } from "react"
+
+import { Header } from "@/components/header"
+import { MDPreview, type MDPreviewHandle } from "@/components/md-preview"
+import { MarkdownToolbar } from "@/components/md-toolbar"
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable"
+import { Spinner } from "@/components/ui/spinner"
+import { useShikiHighlighter } from "@/hooks/use-shiki"
+
+import { MDEditor } from "./components/md-editor"
+import { Toaster } from "./components/ui/toast"
+import { useTheme } from "./hooks/use-theme"
+
+window.MonacoEnvironment = {
+  getWorker() {
+    return new Worker(
+      new URL("monaco-editor/editor/editor.worker", import.meta.url),
+      { type: "module" },
+    )
+  },
+}
+
+loader.config({ monaco })
+
+let shikiRegistered = false
 
 export function App() {
+  const { theme } = useTheme()
+
+  const { highlighter, loading } = useShikiHighlighter()
+  const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null)
+  const monacoRef = useRef<typeof monaco | null>(null)
+  const previewRef = useRef<MDPreviewHandle>(null)
+  const syncingRef = useRef(false)
+
+  const handleMount: OnMount = useCallback(
+    (editor, monacoInstance) => {
+      editor.focus()
+      editorRef.current = editor
+      monacoRef.current = monacoInstance
+
+      monacoInstance.languages.register({ id: "markdown" })
+
+      if (highlighter && !shikiRegistered) {
+        shikiRegistered = true
+        shikiToMonaco(highlighter, monacoInstance)
+      }
+
+      // setTheme 必须在 shikiToMonaco 之后，否则 Monaco 还不知道这个主题
+      monacoInstance.editor.setTheme(theme)
+
+      // Sync Monaco scroll -> Preview scroll
+      editor.onDidScrollChange(() => {
+        if (syncingRef.current || !previewRef.current?.scrollContainer) {
+          return
+        }
+        syncingRef.current = true
+
+        const previewEl = previewRef.current.scrollContainer
+        const editorInfo = editor.getLayoutInfo()
+        const editorScrollable = editor.getScrollHeight() - editorInfo.height
+        const editorRatio =
+          editorScrollable > 0
+            ? editor.getScrollTop() / editorScrollable
+            : 0
+        const previewScrollable =
+          previewEl.scrollHeight - previewEl.clientHeight
+        if (previewScrollable > 0) {
+          previewEl.scrollTop = editorRatio * previewScrollable
+        }
+
+        syncingRef.current = false
+      })
+    },
+    [highlighter, theme],
+  )
+
+  // Sync Preview scroll -> Monaco scroll
+  const handlePreviewScroll = useCallback(() => {
+    const editor = editorRef.current
+    const previewEl = previewRef.current?.scrollContainer
+    if (syncingRef.current || !editor || !previewEl) {
+      return
+    }
+    syncingRef.current = true
+
+    const srcRange = previewEl.scrollHeight - previewEl.clientHeight
+    const srcRatio = srcRange > 0 ? previewEl.scrollTop / srcRange : 0
+
+    const tgtRange = editor.getScrollHeight() - editor.getLayoutInfo().height
+    if (tgtRange > 0) {
+      editor.setScrollPosition({ scrollTop: srcRatio * tgtRange })
+    }
+
+    syncingRef.current = false
+  }, [])
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme
+    if (monacoRef.current) {
+      monacoRef.current.editor.setTheme(theme)
+    }
+  }, [theme])
+
   return (
-    <div className="flex min-h-svh p-6">
-      <div className="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
-        <div>
-          <h1 className="font-medium">Project ready!</h1>
-          <p>You may now add components and start building.</p>
-          <p>We&apos;ve already added the button component for you.</p>
-          <Button className="mt-2">Button</Button>
-        </div>
-        <div className="font-mono text-xs text-muted-foreground">
-          (Press <kbd>d</kbd> to toggle dark mode)
-        </div>
-      </div>
-    </div>
+    <>
+      <main className="flex h-screen w-screen flex-col bg-background text-foreground">
+        <Header />
+        <MarkdownToolbar editorRef={editorRef} previewRef={previewRef} />
+        {loading ? (
+          <div className="flex min-h-0 flex-1 items-center justify-center">
+            <Spinner className="size-10" />
+          </div>
+        ) : (
+          <ResizablePanelGroup
+            orientation="horizontal"
+            className="flex min-h-0 flex-1"
+          >
+            <ResizablePanel defaultSize={50} minSize={25}>
+              <MDEditor onMount={handleMount} />
+            </ResizablePanel>
+            <ResizableHandle withHandle />
+            <ResizablePanel defaultSize={50} minSize={25}>
+              <MDPreview
+                ref={previewRef}
+                highlighter={highlighter}
+                onScroll={handlePreviewScroll}
+              />
+            </ResizablePanel>
+          </ResizablePanelGroup>
+        )}
+      </main>
+      <Toaster />
+    </>
   )
 }
 

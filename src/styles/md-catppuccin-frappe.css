@@ -1,0 +1,43 @@
+[data-theme="catppuccin-frappe"] {
+  --md-color: #c6d0f5;
+
+  --md-link-color: #8caaee;
+
+  --md-heading-color: #c6d0f5;
+  --md-heading-border-color: #414559;
+  --md-h6-color: #737994;
+
+  --md-code-color: #c6d0f5;
+  --md-code-bg: #292c3c;
+
+
+  --md-blockquote-color: #737994;
+  --md-blockquote-border: #51576d;
+
+  --md-hr-color: #414559;
+
+  --md-table-border: #414559;
+  --md-table-tr-bg: #303446;
+  --md-table-tr-alt-bg: #292c3c;
+
+  --md-kbd-color: #c6d0f5;
+  --md-kbd-bg: #414559;
+  --md-kbd-border: #51576d;
+
+  --md-mark-bg: #414559;
+  --md-mark-color: #e5c890;
+
+  --md-footnotes-color: #737994;
+  --md-footnotes-border: #414559;
+
+  --md-alert-note-border: #8caaee;
+  --md-alert-note-color: #8caaee;
+  --md-alert-important-border: #ca9ee6;
+  --md-alert-important-color: #ca9ee6;
+  --md-alert-warning-border: #e5c890;
+  --md-alert-warning-color: #e5c890;
+  --md-alert-tip-border: #a6d189;
+  --md-alert-tip-color: #a6d189;
+  --md-alert-caution-border: #e78284;
+  --md-alert-caution-color: #e78284;
+}

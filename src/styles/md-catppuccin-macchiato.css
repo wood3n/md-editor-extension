@@ -1,0 +1,43 @@
+[data-theme="catppuccin-macchiato"] {
+  --md-color: #cad3f5;
+
+  --md-link-color: #8aadf4;
+
+  --md-heading-color: #cad3f5;
+  --md-heading-border-color: #363a4f;
+  --md-h6-color: #6e738d;
+
+  --md-code-color: #cad3f5;
+  --md-code-bg: #1e2030;
+
+
+  --md-blockquote-color: #6e738d;
+  --md-blockquote-border: #494d64;
+
+  --md-hr-color: #363a4f;
+
+  --md-table-border: #363a4f;
+  --md-table-tr-bg: #24273a;
+  --md-table-tr-alt-bg: #1e2030;
+
+  --md-kbd-color: #cad3f5;
+  --md-kbd-bg: #363a4f;
+  --md-kbd-border: #494d64;
+
+  --md-mark-bg: #363a4f;
+  --md-mark-color: #eed49f;
+
+  --md-footnotes-color: #6e738d;
+  --md-footnotes-border: #363a4f;
+
+  --md-alert-note-border: #8aadf4;
+  --md-alert-note-color: #8aadf4;
+  --md-alert-important-border: #c6a0f6;
+  --md-alert-important-color: #c6a0f6;
+  --md-alert-warning-border: #eed49f;
+  --md-alert-warning-color: #eed49f;
+  --md-alert-tip-border: #a6da95;
+  --md-alert-tip-color: #a6da95;
+  --md-alert-caution-border: #ed8796;
+  --md-alert-caution-color: #ed8796;
+}
