@@ -33,7 +33,7 @@
 
 ## 功能特性
 
-- **Markdown + 预览分屏**：左侧 CodeMirror 6 编辑器（支持语法高亮和自动补全），右侧 markdown-it + shiki 实时渲染
+- **Markdown + 预览分屏**：左侧 Monaco Editor（支持语法高亮、自动补全、多光标），右侧 markdown-it + shiki 实时渲染
 - **统一主题系统**：12 套预设主题（GitHub Light/Dark、One Dark、Tailwind、Monokai、Dracula、Nord、Solarized 等），一键切换编辑器、预览区和代码高亮
 - **Markdown 语法工具栏**：标题、加粗、斜体、下划线、删除线、引用、任务列表、表格、图片、链接、代码块等快捷插入按钮
 - **扩展语法**：下标、上标、高亮、插入文本、表情符号、脚注、定义列表、Front Matter
@@ -186,20 +186,20 @@ Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
 ## 开发
 
 ```bash
-pnpm dev    # Vite 开发服务器，支持 HMR
-pnpm build  # 生产构建
+pnpm dev    # Rsbuild 开发服务器，支持 HMR
+pnpm build  # Rsbuild 生产构建
 ```
 
 ### 技术栈
 
 - **运行环境**：Chrome 扩展（Manifest V3）
 - **前端框架**：React 18 + TypeScript
-- **编辑器**：CodeMirror 6（`@codemirror/lang-markdown`）
+- **编辑器**：Monaco Editor（`@monaco-editor/react`）
 - **Markdown 渲染**：markdown-it + 12 个插件（shiki 代码高亮、sub/sup/ins/mark 扩展语法、脚注、定义列表、表情符号、任务列表、提示框容器等）
 - **代码高亮**：shiki（纯 JS 引擎，CSP 安全）
 - **UI 组件**：shadcn/ui（基于 base-ui）
 - **图表**：Mermaid
-- **构建工具**：Vite + @crxjs/vite-plugin
+- **构建工具**：Rsbuild
 - **样式**：Tailwind CSS v4
 - **图标**：Lucide React
 
@@ -207,33 +207,45 @@ pnpm build  # 生产构建
 
 ```
 src/
-├── background/          # Service worker（扩展图标点击处理）
-├── components/ui/       # shadcn/ui 组件库
-├── hooks/               # React Hooks
-├── newtab/
-│   ├── components/      # React 组件
-│   │   ├── MarkdownEditor.tsx    # 分屏编辑器主组件
-│   │   ├── MarkdownToolbar.tsx   # Markdown 语法工具栏
-│   │   ├── MarkdownPreview.tsx   # 渲染预览区
-│   │   ├── Toolbar.tsx           # 顶部工具栏
-│   │   ├── Sidebar.tsx           # 已保存文档侧边栏
-│   │   ├── Toc.tsx               # 目录
-│   │   ├── SaveDialog.tsx        # 保存弹窗
-│   │   └── RenameDialog.tsx      # 重命名弹窗
-│   ├── hooks/           # React Hooks
-│   ├── lib/             # 工具库
-│   │   ├── markdown.ts          # markdown-it + shiki 渲染器
-│   │   ├── themes.ts            # 主题预设配置
-│   │   ├── cache.ts            # 获取缓存（内存 + storage）
-│   │   ├── doc-store.ts        # 文档持久化
-│   │   ├── detect-markdown.ts
-│   │   ├── constants.ts
-│   │   └── utils.ts
-│   ├── App.tsx
-│   └── main.tsx
+├── app.tsx                # 应用入口组件
+├── main.tsx               # 渲染入口
+├── types.ts               # 类型定义
+├── constants/index.ts     # 常量配置
+├── context/
+│   ├── doc.ts             # 文档状态（zustand）
+│   └── theme.tsx          # 主题上下文
+├── hooks/
+│   ├── use-shiki.ts       # shiki 高亮 hook
+│   └── use-theme.ts       # 主题切换 hook
+├── lib/
+│   ├── doc-db.ts          # IndexedDB 文档持久化
+│   └── utils.ts           # 工具函数
+├── background/
+│   └── service-worker.ts  # Service worker
+├── components/
+│   ├── ui/                # shadcn/ui 组件库
+│   ├── doc-list-drawer/   # 文档列表抽屉
+│   ├── header/            # 顶部工具栏
+│   │   ├── index.tsx
+│   │   ├── doc-save-dialog.tsx
+│   │   ├── doc-rename-dialog.tsx
+│   │   ├── md-export.tsx
+│   │   └── theme-select.tsx
+│   ├── md-editor/         # Monaco Editor 封装
+│   │   ├── index.tsx
+│   │   └── options.ts
+│   ├── md-preview/        # markdown-it + shiki 渲染
+│   │   ├── index.tsx
+│   │   └── md.ts
+│   └── md-toolbar/        # Markdown 语法工具栏
+│       ├── index.tsx
+│       ├── header-select.tsx
+│       ├── toc.tsx
+│       └── tool.ts
 ├── styles/
-│   └── globals.css
-└── ...
+│   ├── markdown-body.css  # 预览区基础样式
+│   └── md-*.css           # 12 套主题 CSS
+└── package.d.ts
 ```
 
 ## 许可证
