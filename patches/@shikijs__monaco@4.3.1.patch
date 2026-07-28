@@ -1,0 +1,47 @@
+diff --git a/dist/index.mjs b/dist/index.mjs
+index 1e5ac09847fe786dcfa36efbf58ec4feb0d597d0..a75b97aef3a9bbdc90cff138da32551d5335a88f 100644
+--- a/dist/index.mjs
++++ b/dist/index.mjs
+@@ -35,7 +35,7 @@ function textmateThemeToMonacoTheme(theme) {
+ 		const themeSettings = theme.settings || theme.tokenColors;
+ 		for (const { scope, settings: { foreground, background, fontStyle } = {} } of themeSettings) {
+ 			if (!foreground && !background && !fontStyle) continue;
+-			const scopes = Array.isArray(scope) ? scope : scope ? [scope] : [];
++			const scopes = Array.isArray(scope) ? scope.flatMap(s => s.split(",").map(x => x.trim()).filter(Boolean)) : scope ? scope.split(",").map(s => s.trim()).filter(Boolean) : [];
+ 			const normalizedFontStyle = normalizeFontStyleString(fontStyle);
+ 			const normalizedForeground = normalizeColor(foreground);
+ 			const normalizedBackground = normalizeColor(background);
+@@ -90,9 +90,11 @@ function shikiToMonaco(highlighter, monaco, options = {}) {
+ 		const key = getColorStyleKey(color, normalizeFontStyleBits(fontStyle));
+ 		return colorStyleToScopeMap.get(key);
+ 	}
++	const _shikiProviders = [];
+ 	const { tokenizeMaxLineLength = 2e4, tokenizeTimeLimit = 500 } = options;
+ 	const monacoLanguageIds = new Set(monaco.languages.getLanguages().map((l) => l.id));
+-	for (const lang of highlighter.getLoadedLanguages()) if (monacoLanguageIds.has(lang)) monaco.languages.setTokensProvider(lang, {
++	for (const lang of highlighter.getLoadedLanguages()) if (monacoLanguageIds.has(lang)) {
++		const _provider = {
+ 		getInitialState() {
+ 			return new TokenizerState(INITIAL);
+ 		},
+@@ -124,7 +126,19 @@ function shikiToMonaco(highlighter, monaco, options = {}) {
+ 				tokens
+ 			};
+ 		}
+-	});
++	};
++		_shikiProviders.push({lang, provider: _provider});
++		monaco.languages.setTokensProvider(lang, _provider);
++	}
++	let _rc = 0;
++	const _poll = () => {
++		for (const {lang, provider} of _shikiProviders) {
++			try { monaco.languages.setTokensProvider(lang, provider); } catch(e) {}
++		}
++		_rc++;
++		if (_rc < 15) setTimeout(_poll, 200);
++	};
++	setTimeout(_poll, 50);
+ }
+ function normalizeFontStyleBits(fontStyle) {
+ 	if (fontStyle <= FontStyle.None) return "";
