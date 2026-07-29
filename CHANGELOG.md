@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.6.1](https://github.com/wood3n/md-editor-extension/compare/v1.6.0...v1.6.1) (2026-07-29)
+
+### 🩹 修复问题
+
+* fix auto save problem ([6f67b37](https://github.com/wood3n/md-editor-extension/commit/6f67b37f5d7d9219084a8cf55509291601aa571a))
+
 ## [1.6.0](https://github.com/wood3n/md-editor-extension/compare/v1.5.1...v1.6.0) (2026-07-29)
 
 ### 🚀 新功能
