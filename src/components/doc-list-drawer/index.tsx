@@ -23,6 +23,7 @@ import {
   ItemTitle,
 } from "@/components/ui/item"
 import { useDoc } from "@/context/doc"
+import { clearDraft } from "@/lib/storage"
 import { formatDate } from "@/lib/utils"
 
 import {
@@ -60,6 +61,9 @@ export function DocListDrawer({ open, onOpenChange }: Props) {
   }
 
   const handleSelectDoc = async (id: string) => {
+    if (!docId) {
+      clearDraft()
+    }
     const doc = await loadDoc(id)
     if (doc?.id) {
       useDoc.setState({

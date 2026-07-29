@@ -26,8 +26,6 @@ function injectBanner(content: string) {
   style.background = "#0969da"
   style.color = "#fff"
   style.cursor = "pointer"
-  style.fontFamily =
-    '-apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif'
   style.fontSize = "13px"
   style.textAlign = "center"
   style.userSelect = "none"

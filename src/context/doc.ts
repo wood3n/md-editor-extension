@@ -11,6 +11,7 @@ interface DocStoreActions {
   updateTitle: (title: string) => Promise<void>
   updateContent: () => Promise<boolean>
   addNewDoc: () => void
+  initDoc: (data: Partial<DocData>) => void
 }
 
 const initialState: DocData = {
@@ -42,6 +43,7 @@ export const useDoc = create<DocData & DocStoreActions>()(
             hash: result.hash,
           })
         }
+        clearDraft()
       },
       updateTitle: async (title) => {
         const result = await updateDoc(get().id, { title })
@@ -72,12 +74,22 @@ export const useDoc = create<DocData & DocStoreActions>()(
           }
         }
       },
-      addNewDoc: () => {
+      addNewDoc: async () => {
         if (get().id) {
-          get().updateContent()
+          await get().updateContent()
         }
         set(initialState)
         clearDraft()
+      },
+      initDoc: (data) => {
+        set({
+          id: data.id,
+          title: data.title,
+          content: data.content,
+          hash: data.hash,
+          updatedAt: data.updatedAt,
+          createdAt: data.createdAt,
+        })
       },
     }),
     {
@@ -111,7 +123,7 @@ export const useDoc = create<DocData & DocStoreActions>()(
 
           if (content) {
             const fileName = mdUrl.split("/").pop()?.split("?")[0] || "Untitled"
-            useDoc.setState({
+            state?.initDoc({
               id: "",
               content,
               title: fileName,
@@ -129,8 +141,10 @@ export const useDoc = create<DocData & DocStoreActions>()(
         // No ?md= param — load last opened document
         if (state?.id) {
           const docData = await loadDoc(state.id)
+
           if (docData) {
-            useDoc.setState({
+            state.initDoc({
+              id: docData.id,
               title: docData.title,
               content: docData.content,
               hash: docData.hash,
@@ -144,11 +158,10 @@ export const useDoc = create<DocData & DocStoreActions>()(
         // No ?md= param and no stored doc id — load draft from localStorage
         if (!state?.id) {
           const draft = loadDraft()
-          if (draft) {
-            useDoc.setState({
+          if (draft?.content) {
+            state?.initDoc({
               content: draft.content,
               title: draft.title,
-              hash: hashContent(draft.content),
             })
           }
         }

@@ -1,20 +1,15 @@
 import { useState } from "react"
-import { List, Plus, Pencil, Save } from "lucide-react"
+import { List, Plus, Pencil } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { useDoc } from "@/context/doc"
 
 import { DocListDrawer } from "../doc-list-drawer"
-import { toast } from "../ui/toast"
 import { DocRenameDialog } from "./doc-rename-dialog"
 import { DocSaveDialog } from "./doc-save-dialog"
 import { MdExport } from "./md-export"
-import { SaveStatus } from "./save-status"
+import { SaveButton } from "./save-button"
 import { ThemeSelect } from "./theme-select"
 
 interface HeaderProps {
@@ -27,17 +22,6 @@ export function Header({ saveCount }: HeaderProps) {
   const [openRenameDialog, setOpenRenameDialog] = useState(false)
   const docId = useDoc((state) => state.id)
   const docTitle = useDoc((state) => state.title)
-
-  const handleSave = async () => {
-    if (!docId) {
-      setOpenSaveDialog(true)
-    } else {
-      await useDoc.getState().updateContent()
-      toast.add({
-        type: "success",
-      })
-    }
-  }
 
   return (
     <>
@@ -68,7 +52,6 @@ export function Header({ saveCount }: HeaderProps) {
         </div>
 
         <div className="flex items-center gap-x-1">
-          <SaveStatus saveCount={saveCount} />
           {/* 新建 */}
           <Tooltip>
             <TooltipTrigger
@@ -87,21 +70,10 @@ export function Header({ saveCount }: HeaderProps) {
           </Tooltip>
 
           {/* 保存 */}
-          <Tooltip>
-            <TooltipTrigger
-              render={
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={handleSave}
-                  type="button"
-                >
-                  <Save className="h-4 w-4" />
-                </Button>
-              }
-            />
-            <TooltipContent>保存文档 (⌘S)</TooltipContent>
-          </Tooltip>
+          <SaveButton
+            saveCount={saveCount}
+            onRequestSaveDialog={() => setOpenSaveDialog(true)}
+          />
 
           {/* 导出按钮组 */}
           <MdExport />

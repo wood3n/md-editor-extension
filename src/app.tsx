@@ -60,9 +60,6 @@ export function App() {
     editorRef.current = editor
     monacoRef.current = monacoInstance
 
-    // Auto-save on editor blur
-    editor.onDidBlurEditorText(saveNow)
-
     // Scroll sync: Monaco -> Preview
     editor.onDidScrollChange(() => {
       if (syncingRef.current || !previewRef.current?.scrollContainer) {
@@ -82,7 +79,7 @@ export function App() {
 
       syncingRef.current = false
     })
-  }, [saveNow])
+  }, [])
 
   // Sync Preview scroll -> Monaco scroll
   const handlePreviewScroll = useCallback(() => {

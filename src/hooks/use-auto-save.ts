@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback } from "react"
 
 import { useDoc } from "@/context/doc"
-import { saveDraft } from "@/lib/storage"
+import { clearDraft, saveDraft } from "@/lib/storage"
 
 const AUTO_SAVE_DELAY = 2000
 
@@ -11,6 +11,7 @@ export function useAutoSave() {
 
   const performSave = useCallback(async () => {
     const state = useDoc.getState()
+    const isEmpty = !state.content.trim()
 
     if (state.id) {
       const saved = await state.updateContent()
@@ -18,6 +19,11 @@ export function useAutoSave() {
         setSaveCount((c) => c + 1)
       }
     } else {
+      // Temporary document: clear draft when empty, otherwise save
+      if (isEmpty) {
+        clearDraft()
+        return
+      }
       saveDraft({ title: state.title, content: state.content })
       setSaveCount((c) => c + 1)
     }
