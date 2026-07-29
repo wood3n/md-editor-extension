@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.6.0](https://github.com/wood3n/md-editor-extension/compare/v1.5.1...v1.6.0) (2026-07-29)
+
+### 🚀 新功能
+
+* add content script, auto-save, and Shiki theme integration ([76a5fec](https://github.com/wood3n/md-editor-extension/commit/76a5fec726ec5ab46b2e6d0a827ec05d33436767))
+
 ## [1.5.1](https://github.com/wood3n/md-editor-extension/compare/v1.5.0...v1.5.1) (2026-07-28)
 
 ### 🩹 修复问题
