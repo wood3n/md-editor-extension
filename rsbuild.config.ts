@@ -1,9 +1,35 @@
-import { defineConfig } from "@rsbuild/core"
+import { readFileSync, writeFileSync } from "node:fs"
+import { resolve } from "node:path"
+
+import { defineConfig, logger } from "@rsbuild/core"
 import { pluginReact } from "@rsbuild/plugin-react"
 import { pluginTailwindcss } from "@rsbuild/plugin-tailwindcss"
 
+import manifestTemplate from "./manifest"
+
 export default defineConfig({
-  plugins: [pluginReact(), pluginTailwindcss()],
+  html: {
+    title: "MD Editor",
+  },
+  plugins: [
+    pluginReact(),
+    pluginTailwindcss(),
+    {
+      name: "generate-manifest",
+      setup(api) {
+        api.onBeforeCreateCompiler(() => {
+          const root = process.cwd()
+          const pkg = JSON.parse(
+            readFileSync(resolve(root, "package.json"), "utf8"),
+          )
+          const manifest = { ...manifestTemplate, version: pkg.version }
+          const outputPath = resolve(root, "public", "manifest.json")
+          writeFileSync(outputPath, `${JSON.stringify(manifest, null, 2)}\n`)
+          logger.success(`[manifest-version]: ${pkg.version}`)
+        })
+      },
+    },
+  ],
   environments: {
     web: {
       source: {
@@ -30,6 +56,21 @@ export default defineConfig({
         distPath: {
           root: "dist",
           js: ".",
+        },
+      },
+    },
+    content: {
+      source: {
+        entry: { "md-banner": "./src/content/md-banner.ts" },
+      },
+      output: {
+        target: "web-worker",
+        filename: {
+          js: "[name].js",
+        },
+        distPath: {
+          root: "dist",
+          js: "content-scripts",
         },
       },
     },

@@ -4,4 +4,5 @@ export interface DocData {
   content: string
   createdAt: number
   updatedAt: number
+  hash: string
 }

@@ -77,7 +77,7 @@ function commitTransaction(transaction: IDBTransaction): Promise<void> {
 }
 
 /** Load lightweight document summaries for the list view */
-export type DocListData = Pick<DocData, 'id' | 'title' | 'updatedAt'>
+export type DocListData = Pick<DocData, "id" | "title" | "updatedAt">
 export async function loadDocs(): Promise<DocListData[]> {
   try {
     const database = await openDb()
@@ -114,17 +114,20 @@ export async function loadDocs(): Promise<DocListData[]> {
 }
 
 /** Save a new document. Returns the created doc. */
-export async function saveDoc({
+export async function saveDocToDb({
   title,
   content,
+  hash,
 }: {
   title: string
   content: string
+  hash: string
 }): Promise<DocData | null> {
   const doc: DocData = {
     id: generateId(),
     title,
     content,
+    hash,
     createdAt: Date.now(),
     updatedAt: Date.now(),
   }
@@ -155,7 +158,7 @@ export async function saveDoc({
 /** Update an existing document's content and/or title */
 export async function updateDoc(
   id: string,
-  updates: { title?: string; content?: string },
+  updates: { title?: string; hash?: string; content?: string },
 ): Promise<DocData | null> {
   try {
     const database = await openDb()
@@ -175,6 +178,7 @@ export async function updateDoc(
           : currentDoc.title,
       content:
         updates.content !== undefined ? updates.content : currentDoc.content,
+      hash: updates.hash ?? currentDoc.hash,
       updatedAt: Date.now(),
     }
 
@@ -202,11 +206,12 @@ export async function loadDoc(id: string): Promise<DocData | null> {
 }
 
 /** Delete a document by ID */
-export async function deleteDoc(id: string): Promise<void> {
+export async function deleteDoc(id: string): Promise<boolean> {
   const database = await openDb()
   const transaction = database.transaction(STORE_NAME, "readwrite")
   const store = transaction.objectStore(STORE_NAME)
 
   await createRequest(store.delete(id))
   await commitTransaction(transaction)
+  return true
 }

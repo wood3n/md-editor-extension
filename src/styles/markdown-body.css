@@ -78,6 +78,8 @@
 }
 
 .markdown-body img {
+  display: inline;
+  vertical-align: middle;
   border-style: none;
   max-width: 100%;
   box-sizing: content-box;
@@ -345,8 +347,8 @@
 /* ── Blockquote ── */
 
 .markdown-body blockquote {
-  margin: 0;
-  padding: 0 1em;
+  margin: 0 0 1rem;
+  padding: 0.5em 1em;
   color: var(--md-blockquote-color, var(--md-color));
   border-left: 0.25em solid var(--md-blockquote-border);
 }

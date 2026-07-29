@@ -7,7 +7,7 @@ import {
 
 import { MarkdownCodeLanguages, ThemeList } from "./../constants"
 
-const jsEngine = createJavaScriptRegexEngine()
+const jsEngine = createJavaScriptRegexEngine({ forgiving: true })
 
 export function useShikiHighlighter() {
   const [highlighter, setHighlighter] = useState<Highlighter | null>(null)

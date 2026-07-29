@@ -25,6 +25,7 @@
     "unicorn/no-null": "off",
     "id-length": "off",
     "no-magic-numbers": "off",
+    "no-underscore-dangle": "off",
     "no-unused-vars": [
       "warn",
       {
@@ -35,7 +36,8 @@
         }
       }
     ],
-    "capitalized-comments": "off"
+    "capitalized-comments": "off",
+    "prefer-template": "off"
   },
   "env": {
     "builtin": true,

@@ -57,10 +57,6 @@ export function DocListDrawer({ open, onOpenChange }: Props) {
 
     await deleteDoc(id)
     await refresh()
-
-    if (docId === id) {
-      useDoc.getState().addNewDoc()
-    }
   }
 
   const handleSelectDoc = async (id: string) => {

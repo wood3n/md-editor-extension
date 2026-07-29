@@ -1,5 +1,5 @@
-import { Save, Plus, Pencil, List } from "lucide-react"
 import { useState } from "react"
+import { List, Plus, Pencil, Save } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -8,27 +8,34 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { useDoc } from "@/context/doc"
-import { formatDate } from "@/lib/utils"
 
 import { DocListDrawer } from "../doc-list-drawer"
+import { toast } from "../ui/toast"
 import { DocRenameDialog } from "./doc-rename-dialog"
 import { DocSaveDialog } from "./doc-save-dialog"
 import { MdExport } from "./md-export"
+import { SaveStatus } from "./save-status"
 import { ThemeSelect } from "./theme-select"
 
-export function Header() {
+interface HeaderProps {
+  saveCount?: number
+}
+
+export function Header({ saveCount }: HeaderProps) {
   const [openDocList, setOpenDocList] = useState(false)
   const [openSaveDialog, setOpenSaveDialog] = useState(false)
   const [openRenameDialog, setOpenRenameDialog] = useState(false)
   const docId = useDoc((state) => state.id)
   const docTitle = useDoc((state) => state.title)
-  const docUpdateDate = useDoc((state) => state.updatedAt)
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!docId) {
       setOpenSaveDialog(true)
     } else {
-      useDoc.getState().saveContent()
+      await useDoc.getState().updateContent()
+      toast.add({
+        type: "success",
+      })
     }
   }
 
@@ -44,14 +51,9 @@ export function Header() {
           >
             <List className="h-4 w-4" />
           </Button>
-          {docTitle && (
+          {Boolean(docId) && (
             <div className="group ml-1 flex min-w-0 items-center gap-1">
               <span className="truncate text-base font-medium">{docTitle}</span>
-              {docUpdateDate && (
-                <span className="text-sm whitespace-nowrap text-muted-foreground">
-                  · {formatDate(docUpdateDate)}
-                </span>
-              )}
               <Button
                 variant="ghost"
                 size="icon"
@@ -66,6 +68,7 @@ export function Header() {
         </div>
 
         <div className="flex items-center gap-x-1">
+          <SaveStatus saveCount={saveCount} />
           {/* 新建 */}
           <Tooltip>
             <TooltipTrigger

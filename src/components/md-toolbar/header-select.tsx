@@ -1,4 +1,5 @@
 import {
+  Heading,
   Heading1,
   Heading2,
   Heading3,
@@ -38,7 +39,7 @@ export const HeaderSelect = ({ onSelectHeading }: Props) => (
     <DropdownMenuTrigger
       render={
         <Button variant="ghost" size="icon" className="h-8 w-8" type="button">
-          <Heading1 className="h-4 w-4" />
+          <Heading className="h-4 w-4" />
         </Button>
       }
     />

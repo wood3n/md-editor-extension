@@ -14,13 +14,7 @@ import type { Highlighter } from "shiki"
 import { type Theme } from "@/context/theme"
 import { escapeHtml } from "@/lib/utils"
 
-export function createMarkdownItInstance({
-  highlighter,
-  getTheme,
-}: {
-  highlighter: Highlighter | null
-  getTheme: () => Theme
-}) {
+export function createMarkdownItInstance() {
   const md = markdownit({
     html: true,
     linkify: true,
@@ -76,7 +70,17 @@ export function createMarkdownItInstance({
     })
   }
 
-  md.renderer.rules.fence = (tokens: Token[], idx: number) => {
+  return md
+}
+
+export function createFenceRule({
+  highlighter,
+  theme,
+}: {
+  highlighter: Highlighter | null
+  theme: Theme
+}) {
+  return (tokens: Token[], idx: number) => {
     const token = tokens[idx]
     const rawLang = (token.info ?? "").trim().split(/\s+/)[0].toLowerCase()
 
@@ -101,7 +105,7 @@ export function createMarkdownItInstance({
     try {
       return highlighter.codeToHtml(token.content, {
         lang: rawLang,
-        theme: getTheme(),
+        theme,
       })
     } catch {
       const escaped = token.content
@@ -111,8 +115,6 @@ export function createMarkdownItInstance({
       return `<pre class="shiki-fallback"><code>${escaped}</code></pre>`
     }
   }
-
-  return md
 }
 
 export function parseFrontMatter(raw: string): {
