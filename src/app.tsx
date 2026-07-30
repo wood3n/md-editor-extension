@@ -13,6 +13,7 @@ import {
 import { Spinner } from "@/components/ui/spinner"
 import { useShikiHighlighter } from "@/hooks/use-shiki"
 import { setupShikiMonaco } from "@/lib/setup-shiki-monaco"
+import { setupMarkdownEditor } from "@/components/md-editor/markdown-setup"
 
 import { MDEditor } from "./components/md-editor"
 import { Toaster } from "./components/ui/toast"
@@ -57,6 +58,7 @@ export function App() {
 
   const handleMount: OnMount = useCallback((editor, monacoInstance) => {
     editor.focus()
+    setupMarkdownEditor(editor, monacoInstance)
     editorRef.current = editor
     monacoRef.current = monacoInstance
 
