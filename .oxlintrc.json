@@ -20,6 +20,7 @@
     "unicorn/prefer-global-this": "off",
     "prefer-named-capture-group": "off",
     "max-statements": "off",
+    "max-params": "off",
     "prefer-destructuring": "off",
     "no-ternary": "off",
     "unicorn/no-null": "off",
