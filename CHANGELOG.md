@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.7.1](https://github.com/wood3n/md-editor-extension/compare/v1.7.0...v1.7.1) (2026-07-30)
+
+### 🩹 修复问题
+
+* **markdown-preview:** add margin-bottom to ul/ol lists ([d418fd5](https://github.com/wood3n/md-editor-extension/commit/d418fd59d1ecdc47b74403576fa749a009cceec8))
+
 ## [1.7.0](https://github.com/wood3n/md-editor-extension/compare/v1.6.1...v1.7.0) (2026-07-30)
 
 ### 🚀 新功能
