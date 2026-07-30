@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.7.0](https://github.com/wood3n/md-editor-extension/compare/v1.6.1...v1.7.0) (2026-07-30)
+
+### 🚀 新功能
+
+* add markdown auto-completion for backtick pairs and image syntax ([da78b72](https://github.com/wood3n/md-editor-extension/commit/da78b7292ba527fe58907e0d4444e4b1034c20f7))
+
+### 📖 文档
+
+* fix readme ([cdfd73b](https://github.com/wood3n/md-editor-extension/commit/cdfd73b5ca0cdab0ade68a16777732bbd426ca13))
+
 ## [1.6.1](https://github.com/wood3n/md-editor-extension/compare/v1.6.0...v1.6.1) (2026-07-29)
 
 ### 🩹 修复问题
