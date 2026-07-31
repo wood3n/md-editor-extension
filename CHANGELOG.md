@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.8.0](https://github.com/wood3n/md-editor-extension/compare/v1.7.1...v1.8.0) (2026-07-31)
+
+### 🚀 新功能
+
+* add PDF export ([7afbbf7](https://github.com/wood3n/md-editor-extension/commit/7afbbf75087124867544b0f27e63e51f48a96ac5))
+
 ## [1.7.1](https://github.com/wood3n/md-editor-extension/compare/v1.7.0...v1.7.1) (2026-07-30)
 
 ### 🩹 修复问题
