@@ -85,6 +85,16 @@
   box-sizing: content-box;
 }
 
+/* Local images use a predictable, document-friendly default without changing
+   the rendering behavior of ordinary Markdown image links. */
+.markdown-body img.md-local-image {
+  display: block;
+  width: 50%;
+  max-width: 100%;
+  height: auto;
+  margin-inline: auto;
+}
+
 .markdown-body figure {
   margin: 1em 2.5rem;
 }

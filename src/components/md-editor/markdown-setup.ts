@@ -1,5 +1,6 @@
 import type { editor } from "monaco-editor"
 
+import { setupImagePasteHandler } from "./image-paste-handler"
 import { setupMarkdownInputHandler } from "./markdown-input-handler"
 
 /**
@@ -10,4 +11,5 @@ import { setupMarkdownInputHandler } from "./markdown-input-handler"
 export function setupMarkdownEditor(editor: editor.IStandaloneCodeEditor, _monaco: any): void {
   // Input interception for auto-pairing / snippet expansion
   setupMarkdownInputHandler(editor)
+  setupImagePasteHandler(editor)
 }

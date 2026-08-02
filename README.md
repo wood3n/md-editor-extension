@@ -34,6 +34,7 @@
 ## 功能特性
 
 - **Markdown + 预览分屏**：左侧 Monaco Editor（支持语法高亮、自动补全、多光标），右侧 markdown-it + shiki 实时渲染
+- **本地图片粘贴**：直接粘贴 PNG、JPEG、GIF、WebP 图片；图片二进制保存在本地 IndexedDB，Markdown 使用短引用，离线刷新后仍可预览
 - **统一主题系统**：11 套预设主题（GitHub Light/Dark、One Dark Pro、Monokai、Dracula、Solarized、Catppuccin 等），一键切换编辑器、预览区和代码高亮
 - **Markdown 语法工具栏**：标题、加粗、斜体、下划线、删除线、引用、任务列表、表格、图片、链接、代码块等快捷插入按钮
 - **扩展语法**：下标、上标、高亮、插入文本、表情符号、脚注、定义列表、Front Matter
@@ -166,6 +167,12 @@ Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
 2. 点击 **保存** 按钮（或按 `⌘S` / `Ctrl+S`）
 3. 输入文档标题
 4. 已保存的文档会出现在左侧侧边栏中，方便快速访问
+
+### 本地图片粘贴
+
+将本地图片复制后，在编辑器内直接粘贴即可。图片文件保存在浏览器本地的 IndexedDB，文档中仅保存 `md-image://` 短引用，因此刷新或重新打开文档后仍可预览。
+
+目前该短引用只能在本扩展内显示；下载 Markdown 后，如需在其他应用中使用图片，需要在后续版本通过图片包或内嵌图片导出。
 
 ### 侧边栏
 

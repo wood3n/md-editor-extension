@@ -5,12 +5,18 @@ import {
   useRef,
   forwardRef,
   useEffect,
+  useState,
 } from "react"
 import type { Highlighter } from "shiki"
 
 import { ThemeList } from "@/constants"
 import { useDoc } from "@/context/doc"
 import { useTheme } from "@/hooks/use-theme"
+import {
+  getLocalImageId,
+  getLocalImageIds,
+  loadLocalImages,
+} from "@/lib/doc-db"
 
 import {
   parseFrontMatter,
@@ -34,6 +40,72 @@ export const MDPreview = forwardRef<MDPreviewHandle, Props>(
     const scrollRef = useRef<HTMLDivElement>(null)
 
     const markdownItInstanceRef = useRef(createMarkdownItInstance())
+    const defaultImageRendererRef = useRef(
+      markdownItInstanceRef.current.renderer.rules.image,
+    )
+    const objectUrlsRef = useRef(new Map<string, string>())
+    const [localImageSources, setLocalImageSources] = useState<
+      Record<string, string>
+    >({})
+    const localImageIds = useMemo(
+      () => getLocalImageIds(mdContent),
+      [mdContent],
+    )
+    const localImageIdsKey = localImageIds.join(",")
+
+    useEffect(() => {
+      let cancelled = false
+      const activeIds = new Set(localImageIds)
+
+      objectUrlsRef.current.forEach((url, id) => {
+        if (!activeIds.has(id)) {
+          URL.revokeObjectURL(url)
+          objectUrlsRef.current.delete(id)
+        }
+      })
+
+      const missingIds = localImageIds.filter(
+        (id) => !objectUrlsRef.current.has(id),
+      )
+
+      const updateSources = () => {
+        const nextSources = Object.fromEntries(
+          localImageIds.flatMap((id) => {
+            const source = objectUrlsRef.current.get(id)
+            return source ? [[id, source]] : []
+          }),
+        )
+        setLocalImageSources(nextSources)
+      }
+
+      if (missingIds.length === 0) {
+        updateSources()
+        return
+      }
+
+      void loadLocalImages(missingIds).then((images) => {
+        if (cancelled) {
+          return
+        }
+
+        for (const [id, blob] of images) {
+          objectUrlsRef.current.set(id, URL.createObjectURL(blob))
+        }
+        updateSources()
+      })
+
+      return () => {
+        cancelled = true
+      }
+    }, [localImageIds, localImageIdsKey])
+
+    useEffect(
+      () => () => {
+        objectUrlsRef.current.forEach((url) => URL.revokeObjectURL(url))
+        objectUrlsRef.current.clear()
+      },
+      [],
+    )
 
     const { yaml, html } = useMemo(() => {
       markdownItInstanceRef.current.renderer.rules.fence = createFenceRule({
@@ -41,12 +113,37 @@ export const MDPreview = forwardRef<MDPreviewHandle, Props>(
         theme,
       })
 
+      markdownItInstanceRef.current.renderer.rules.image = (
+        tokens,
+        idx,
+        options,
+        env,
+        self,
+      ) => {
+        const token = tokens[idx]
+        const localImageId = getLocalImageId(token.attrGet("src") ?? "")
+
+        if (localImageId) {
+          const source = localImageSources[localImageId]
+          if (!source) {
+            return '<span class="md-local-image-loading">图片加载中…</span>'
+          }
+          token.attrSet("src", source)
+          token.attrJoin("class", "md-local-image")
+        }
+
+        const defaultImageRenderer = defaultImageRendererRef.current
+        return defaultImageRenderer
+          ? defaultImageRenderer(tokens, idx, options, env, self)
+          : self.renderToken(tokens, idx, options)
+      }
+
       const { yaml: frontMatter, body } = parseFrontMatter(mdContent)
       return {
         yaml: frontMatter,
         html: markdownItInstanceRef.current.render(body),
       }
-    }, [mdContent, highlighter, theme])
+    }, [mdContent, highlighter, localImageSources, theme])
 
     // Re-initialize mermaid when dark/light theme changes
     useEffect(() => {

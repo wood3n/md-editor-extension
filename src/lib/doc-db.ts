@@ -1,12 +1,21 @@
 import { type DocData } from "@/types"
 
 const DB_NAME = "md-editor-docs"
-const DB_VERSION = 2
+const DB_VERSION = 3
 const STORE_NAME = "docs"
+const IMAGE_STORE_NAME = "images"
 const MAX_DOCS = 999
 const ID_RADIX = 36
 const ID_SUFFIX_LENGTH = 5
 const UPDATED_AT_INDEX = "updatedAt"
+
+export const LOCAL_IMAGE_URL_PREFIX = "md-image://"
+
+export interface LocalImageData {
+  id: string
+  blob: Blob
+  createdAt: number
+}
 
 let dbPromise: Promise<IDBDatabase> | null = null
 
@@ -14,6 +23,12 @@ function generateId(): string {
   return `doc_${Date.now()}_${Math.random()
     .toString(ID_RADIX)
     .slice(2, 2 + ID_SUFFIX_LENGTH)}`
+}
+
+function generateImageId(): string {
+  const bytes = crypto.getRandomValues(new Uint8Array(10))
+  const binary = String.fromCharCode(...bytes)
+  return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "")
 }
 
 function openDb(): Promise<IDBDatabase> {
@@ -36,16 +51,17 @@ function openDb(): Promise<IDBDatabase> {
       if (!database.objectStoreNames.contains(STORE_NAME)) {
         const store = database.createObjectStore(STORE_NAME, { keyPath: "id" })
         store.createIndex(UPDATED_AT_INDEX, UPDATED_AT_INDEX, { unique: false })
-        return
+      } else if (transaction) {
+        const store = transaction.objectStore(STORE_NAME)
+        if (!store.indexNames.contains(UPDATED_AT_INDEX)) {
+          store.createIndex(UPDATED_AT_INDEX, UPDATED_AT_INDEX, {
+            unique: false,
+          })
+        }
       }
 
-      if (!transaction) {
-        return
-      }
-
-      const store = transaction.objectStore(STORE_NAME)
-      if (!store.indexNames.contains(UPDATED_AT_INDEX)) {
-        store.createIndex(UPDATED_AT_INDEX, UPDATED_AT_INDEX, { unique: false })
+      if (!database.objectStoreNames.contains(IMAGE_STORE_NAME)) {
+        database.createObjectStore(IMAGE_STORE_NAME, { keyPath: "id" })
       }
     })
 
@@ -74,6 +90,74 @@ function commitTransaction(transaction: IDBTransaction): Promise<void> {
     transaction.addEventListener("error", () => reject(transaction.error))
     transaction.addEventListener("abort", () => reject(transaction.error))
   })
+}
+
+export function getLocalImageId(url: string): string | null {
+  if (!url.startsWith(LOCAL_IMAGE_URL_PREFIX)) {
+    return null
+  }
+
+  const id = url.slice(LOCAL_IMAGE_URL_PREFIX.length)
+  return /^[A-Za-z0-9_-]{14}$/.test(id) ? id : null
+}
+
+export function getLocalImageIds(markdown: string): string[] {
+  const ids = new Set<string>()
+  const pattern = /md-image:\/\/([A-Za-z0-9_-]{14})/g
+
+  for (const match of markdown.matchAll(pattern)) {
+    ids.add(match[1])
+  }
+
+  return [...ids]
+}
+
+export async function saveLocalImage(blob: Blob): Promise<string | null> {
+  const image: LocalImageData = {
+    id: generateImageId(),
+    blob,
+    createdAt: Date.now(),
+  }
+
+  try {
+    const database = await openDb()
+    const transaction = database.transaction(IMAGE_STORE_NAME, "readwrite")
+    const store = transaction.objectStore(IMAGE_STORE_NAME)
+
+    await createRequest(store.add(image))
+    await commitTransaction(transaction)
+    return image.id
+  } catch {
+    return null
+  }
+}
+
+export async function loadLocalImages(
+  ids: readonly string[],
+): Promise<Map<string, Blob>> {
+  if (ids.length === 0) {
+    return new Map()
+  }
+
+  try {
+    const database = await openDb()
+    const transaction = database.transaction(IMAGE_STORE_NAME, "readonly")
+    const store = transaction.objectStore(IMAGE_STORE_NAME)
+    const images = await Promise.all(
+      [...new Set(ids)].map((id) =>
+        createRequest<LocalImageData | undefined>(store.get(id)),
+      ),
+    )
+    await commitTransaction(transaction)
+
+    return new Map(
+      images
+        .filter((image): image is LocalImageData => Boolean(image))
+        .map((image) => [image.id, image.blob]),
+    )
+  } catch {
+    return new Map()
+  }
 }
 
 /** Load lightweight document summaries for the list view */

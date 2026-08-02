@@ -18,7 +18,7 @@ const manifest: chrome.runtime.ManifestV3 = {
     "48": "icons/icon48.png",
     "128": "icons/icon128.png",
   },
-  permissions: ["activeTab", "storage", "unlimitedStorage"],
+  permissions: ["activeTab", "clipboardRead", "storage", "unlimitedStorage"],
   host_permissions: ["<all_urls>", "file:///*"],
   content_scripts: [
     {
