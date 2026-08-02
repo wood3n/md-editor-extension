@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.9.0](https://github.com/wood3n/md-editor-extension/compare/v1.8.0...v1.9.0) (2026-08-02)
+
+### 🚀 新功能
+
+* support pasting local images ([8143a8e](https://github.com/wood3n/md-editor-extension/commit/8143a8e3a9b6ca01e2023c554b71a23f9bfc8e44))
+
 ## [1.8.0](https://github.com/wood3n/md-editor-extension/compare/v1.7.1...v1.8.0) (2026-07-31)
 
 ### 🚀 新功能
